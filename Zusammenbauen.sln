@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32929.386
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zusammenbauen", "Zusammenbauen\Zusammenbauen.csproj", "{42D687B7-503C-422E-A899-3D0BB4568364}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTester", "UnitTester\UnitTester.csproj", "{E86506B8-516A-4C3A-8B57-32049B8850E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42D687B7-503C-422E-A899-3D0BB4568364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42D687B7-503C-422E-A899-3D0BB4568364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42D687B7-503C-422E-A899-3D0BB4568364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42D687B7-503C-422E-A899-3D0BB4568364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E86506B8-516A-4C3A-8B57-32049B8850E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E86506B8-516A-4C3A-8B57-32049B8850E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E86506B8-516A-4C3A-8B57-32049B8850E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E86506B8-516A-4C3A-8B57-32049B8850E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1764F17-6672-46D3-8F02-E8F0552438FA}
+	EndGlobalSection
+EndGlobal
