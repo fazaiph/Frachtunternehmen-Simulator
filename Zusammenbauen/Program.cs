@@ -102,6 +102,7 @@ namespace Zusammenbau
 
         private static void PrintTrucksMarket()
         {
+            var selectionIsValid = true;
             foreach (var truck in trucksOnTheMarket)
                 maxStringLengthForTrucks = CalcMaxStringLengthPerColumn(maxStringLengthForTrucks,
                     truck.GetStringLengthPerColumn().ToArray());
@@ -110,11 +111,18 @@ namespace Zusammenbau
 
             foreach (var truck in trucksOnTheMarket)
                 myUI.PrintTable(truck.GetPrintingList().ToArray(), maxStringLengthForTrucks);
-            Console.WriteLine("Kaufe einen Truck mit 1-8 oder kehre zurück mit z");
             do
             {
+                Console.WriteLine("Kaufe einen Truck mit 1-8 oder kehre zurück mit z");
+                selectionIsValid = true;
                 selection = Console.ReadKey(true);
-            } while ((selection.KeyChar < '1' || selection.KeyChar > '8') && !'z'.Equals(selection.KeyChar));
+                if ((selection.KeyChar < '1' || selection.KeyChar > '8') && !'z'.Equals(selection.KeyChar))
+                {
+                    selectionIsValid = false;
+                    Console.WriteLine(("Ungültige Eingabe!"));
+                    //.ReadKey(true);
+                }
+            } while (!selectionIsValid);
 
             if (selection.KeyChar >= '1' && selection.KeyChar <= '8')
             {
