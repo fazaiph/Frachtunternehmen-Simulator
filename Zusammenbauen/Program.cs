@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Zusammenbauen;
 
 namespace Zusammenbau
@@ -11,7 +12,7 @@ namespace Zusammenbau
         private static string companyName;
         private static DateTime gameDate = DateTime.Now;
         private static Company myCompany;
-        private static readonly List<Trucks> trucksOnTheMarket = new List<Trucks>();
+        private static List<Trucks> trucksOnTheMarket = new List<Trucks>();
         private static readonly List<Drivers> jobSeekingDrivers = new List<Drivers>();
         private static readonly List<Jobs> jobOffers = new List<Jobs>();
         private static readonly NameFileHandler nameHandling = new NameFileHandler();
@@ -113,10 +114,11 @@ namespace Zusammenbau
                 myUI.PrintTable(truck.GetPrintingList().ToArray(), maxStringLengthForTrucks);
             do
             {
-                Console.WriteLine("Kaufe einen Truck mit 1-8 oder kehre zurück mit z");
+                Console.WriteLine("Kaufe einen Truck mit 1-{0} oder kehre zurück mit z", trucksOnTheMarket.Count);
                 selectionIsValid = true;
                 selection = Console.ReadKey(true);
-                if ((selection.KeyChar < '1' || selection.KeyChar > '8') && !'z'.Equals(selection.KeyChar))
+                var test = Convert.ToChar(trucksOnTheMarket.Count.ToString());
+                if ((selection.KeyChar < '1' || selection.KeyChar > Convert.ToChar(trucksOnTheMarket.Count.ToString())) && !'z'.Equals(selection.KeyChar))
                 {
                     selectionIsValid = false;
                     Console.WriteLine(("Ungültige Eingabe!"));
@@ -124,13 +126,36 @@ namespace Zusammenbau
                 }
             } while (!selectionIsValid);
 
-            if (selection.KeyChar >= '1' && selection.KeyChar <= '8')
+            if (!'z'.Equals(selection.KeyChar))
             {
-                Console.WriteLine("Sie kaufen Truck: " + selection.KeyChar +
-                                  "\ndrücken Sie eine Taste zum fortfahren!");
-                Console.ReadKey();
+                buyTruck(selection.KeyChar.ToString());
             }
         }
+
+        private static void buyTruck(string selectedTruckId)
+        {
+            var selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId) - 1;
+            myCompany.SetCompanyCash(myCompany.GetCompanyCash() - trucksOnTheMarket[selectedTruckIdAsInt].GetPrice());
+            myCompany.addTruckToOwnedTrucks(trucksOnTheMarket[selectedTruckIdAsInt]);
+            RemoveTruckFromMarket(selectedTruckIdAsInt);
+        }
+
+        private static void RemoveTruckFromMarket(int selectedTruckId)
+        {
+            trucksOnTheMarket.RemoveAt(selectedTruckId);
+            UpdateTruckIds();
+        }
+
+        private static void UpdateTruckIds()
+        {
+            var newID = 0;
+            foreach (var truck in trucksOnTheMarket)
+            {
+                truck.SetID(newID++);
+                truck.UpdatePrintingList(0, newID);
+            }
+        }
+
 
         private static int[] CalcMaxStringLengthPerColumn(int[] maxStringLength, int[] stringLengthPerColumn)
         {

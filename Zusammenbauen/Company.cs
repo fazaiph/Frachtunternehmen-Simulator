@@ -4,11 +4,11 @@ namespace Zusammenbau
 {
     internal class Company
     {
-        private readonly long companyCash;
+        private long companyCash;
         private readonly string companyName;
         private readonly List<Drivers> employedDrivers = new List<Drivers>();
         private int numberOfEmployees, numberOfOwnedTrucks, numberOfJobs;
-        private readonly List<Trucks> ownedTrucks = new List<Trucks>();
+        private List<Trucks> ownedTrucks = new List<Trucks>();
         private readonly List<Jobs> pendingJobs = new List<Jobs>();
 
         public Company(string chosenName)
@@ -50,6 +50,17 @@ namespace Zusammenbau
             numberOfEmployees = employedDrivers.Count;
             numberOfOwnedTrucks = ownedTrucks.Count;
             numberOfJobs = pendingJobs.Count;
+        }
+
+        public void SetCompanyCash(long newCash)
+        {
+            companyCash = newCash;
+        }
+
+        public void addTruckToOwnedTrucks(Trucks truckToAdd)
+        {
+            ownedTrucks.Add(truckToAdd);
+            numberOfOwnedTrucks++;
         }
     }
 }

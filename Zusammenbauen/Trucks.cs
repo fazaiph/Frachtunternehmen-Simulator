@@ -17,7 +17,9 @@ namespace Zusammenbau
 
         private readonly string[] availableTypes = { "Kühllastwagen", "Pritschenwagen", "Tanklaster" };
         private readonly string currentLocation;
-        private readonly int power, maxLoad, fuelConsumption, trucksIndex, price;
+        private readonly int power, maxLoad, fuelConsumption;
+        private int trucksIndex;
+        private readonly int price;
         private readonly List<string> printingList = new List<string>();
         private readonly List<int> stringLengthPerColumn = new List<int>();
         private readonly Mapper truckMapper = new Mapper();
@@ -143,6 +145,18 @@ namespace Zusammenbau
         {
             return Mapper.MapBaseTruckFuelConsumption(size, type) +
                    Convert.ToInt32(Math.Floor(Convert.ToDouble(age) / 3));
+        }
+
+        public void SetID(int newID)
+        {
+            trucksIndex = newID;
+        }
+
+        public void UpdatePrintingList(int index, int newContent)
+        {
+            var newItem = newContent.ToString();
+            printingList.RemoveAt(index);
+            printingList.Insert(index, newItem);
         }
     }
 }
