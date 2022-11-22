@@ -57,10 +57,16 @@ namespace Zusammenbauen
             companyCash = newCash;
         }
 
-        public void addTruckToOwnedTrucks(Trucks truckToAdd)
+        public void AddTruckToOwnedTrucks(Trucks truckToAdd)
         {
             ownedTrucks.Add(truckToAdd);
             numberOfOwnedTrucks++;
+        }
+
+        public void AddDriverToEmployedDriversList(Drivers freshlyEmployedDriver)
+        {
+            employedDrivers.Add(freshlyEmployedDriver);
+            numberOfEmployees++;
         }
     }
 }

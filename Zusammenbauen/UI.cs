@@ -4,13 +4,6 @@ namespace Zusammenbauen
 {
     internal class UI
     {
-        private readonly string[] employeeHeaderStrings =
-            { " # ", " Ware", " Typ", " Startort", " Zielort", " Gewicht", " Lieferdatum", " Vergütung", " Strafe" };
-
-        private readonly string[] jobHeaderStrings =
-            { " # ", " Ware", " Typ", " Startort", " Zielort", " Gewicht", " Lieferdatum", " Vergütung", " Strafe" };
-
-
         public void PrintTableHeaders(string[] marketTypeSpecificStrings, int[] maxLengthPerColumn)
         {
             for (var index = 0; index < marketTypeSpecificStrings.Length; index++)

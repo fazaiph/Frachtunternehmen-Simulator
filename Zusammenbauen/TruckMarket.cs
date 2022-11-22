@@ -59,17 +59,17 @@ namespace Zusammenbauen
             var selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId) - 1;
             buyingCompany.SetCompanyCash(buyingCompany.GetCompanyCash() -
                                          trucksOnTheMarket[selectedTruckIdAsInt].GetPrice());
-            buyingCompany.addTruckToOwnedTrucks(trucksOnTheMarket[selectedTruckIdAsInt]);
+            buyingCompany.AddTruckToOwnedTrucks(trucksOnTheMarket[selectedTruckIdAsInt]);
             RemoveTruckFromMarket(selectedTruckIdAsInt);
         }
 
         private static void RemoveTruckFromMarket(int selectedTruckId)
         {
             trucksOnTheMarket.RemoveAt(selectedTruckId);
-            UpdateTruckIds();
+            UpdateTrucksOnTheMarketIds();
         }
 
-        private static void UpdateTruckIds()
+        private static void UpdateTrucksOnTheMarketIds()
         {
             var newID = 1;
             foreach (var truck in trucksOnTheMarket) truck.SetID(newID++);
