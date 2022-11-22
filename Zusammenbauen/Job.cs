@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Zusammenbau
+namespace Zusammenbauen
 {
-    internal class Jobs
+    internal class Job
     {
         private readonly string[] availableCites =
             { "Amsterdam", "Berlin", "Esslingen", "Rom", "Lissabon", "Istanbul", "Aarhus", "Tallin" };
@@ -17,13 +17,13 @@ namespace Zusammenbau
 
         private readonly string goodsType, originCity, destinationCity, requiredTruckType;
         private readonly Mapper mapper = new Mapper();
-
-        private readonly List<int> stringLengthPerColumn = new List<int>();
         private readonly List<string> printingList = new List<string>();
         private readonly Random rndNum = new Random();
-        private readonly int totalWeight, deliveryDays, maxDays, jobIndex;
 
-        public Jobs(int jobIndexFromOutside)
+        private readonly List<int> stringLengthPerColumn = new List<int>();
+        private readonly int totalWeight, jobIndex, deliveryDays, maxDays;
+
+        public Job(int jobIndexFromOutside)
         {
             goodsType = availableGoods[rndNum.Next(9)];
             requiredTruckType = Mapper.MapGoodsTypeToTruckType(goodsType);
@@ -33,7 +33,8 @@ namespace Zusammenbau
             maxDays = Mapper.MapMaxDays(goodsType);
             deliveryDays = rndNum.Next(3, maxDays);
             deliveryDate = DateTime.Now.AddDays(deliveryDays);
-            bonusFactor = 1 + (0.2 + deliveryDays / maxDays) * rndNum.Next(2);
+            bonusFactor = 1.0 + (0.2 + Convert.ToDouble(deliveryDays) / Convert.ToDouble(maxDays)) *
+                rndNum.NextDouble();
             payment = mapper.MapMinPricePerTon(goodsType) * totalWeight * bonusFactor;
             fine = rndNum.Next(50, 201) * payment / 100;
             jobIndex = jobIndexFromOutside;

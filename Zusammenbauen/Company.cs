@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 
-namespace Zusammenbau
+namespace Zusammenbauen
 {
     internal class Company
     {
-        private long companyCash;
         private readonly string companyName;
         private readonly List<Drivers> employedDrivers = new List<Drivers>();
+        private readonly List<Trucks> ownedTrucks = new List<Trucks>();
+        private readonly List<Job> pendingJobs = new List<Job>();
+        private long companyCash;
         private int numberOfEmployees, numberOfOwnedTrucks, numberOfJobs;
-        private List<Trucks> ownedTrucks = new List<Trucks>();
-        private readonly List<Jobs> pendingJobs = new List<Jobs>();
 
         public Company(string chosenName)
         {

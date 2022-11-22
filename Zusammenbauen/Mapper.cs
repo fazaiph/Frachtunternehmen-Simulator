@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Zusammenbau
+namespace Zusammenbauen
 {
     internal class Mapper
     {

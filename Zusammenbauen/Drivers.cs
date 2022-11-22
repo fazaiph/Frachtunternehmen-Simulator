@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Zusammenbau;
 
-namespace Zusammenbau
+namespace Zusammenbauen
 {
     internal class Drivers
     {
+        private static readonly List<int> stringLengthPerColumn = new List<int>();
+        private static readonly List<string> printingList = new List<string>();
+
         private readonly string[] availableTypes =
         {
             "Alt, aber erfahren",
@@ -16,12 +17,12 @@ namespace Zusammenbau
             "Unauffälig"
         };
 
-        private  string fullName, type;
+        private readonly string fullName;
+
         private readonly Random number = new Random();
-        
+        private readonly string type;
+
         private readonly int wishedForSalary;
-        private static readonly List<int> stringLengthPerColumn = new List<int>();
-        private static readonly List<string> printingList = new List<string>();
 
         public Drivers(string forename, string surname)
         {
@@ -44,8 +45,6 @@ namespace Zusammenbau
             printingList.Add(fullName);
             printingList.Add(wishedForSalary.ToString().Insert(wishedForSalary.ToString().Length, "EUR"));
             printingList.Add(type);
-
-
         }
 
         public List<string> GetPrintingList()

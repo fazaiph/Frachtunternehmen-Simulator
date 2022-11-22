@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Zusammenbau
+namespace Zusammenbauen
 {
     internal class Trucks
     {
         private static readonly Random rndNum = new Random();
-
-        private static readonly string[] headerStrings =
-            { " #", " Typ", " Alter", " Leistung", " Zuladung", " Verbrauch", " Preis", " Ort" };
 
         private readonly int age;
 
@@ -18,7 +15,6 @@ namespace Zusammenbau
         private readonly string[] availableTypes = { "Kühllastwagen", "Pritschenwagen", "Tanklaster" };
         private readonly string currentLocation;
         private readonly int power, maxLoad, fuelConsumption;
-        private int trucksIndex;
         private readonly int price;
         private readonly List<string> printingList = new List<string>();
         private readonly List<int> stringLengthPerColumn = new List<int>();
@@ -26,6 +22,7 @@ namespace Zusammenbau
         private readonly string[] truckSizes = { "Klein", "Medium", "Groß", "Riesig" };
         private readonly string type, size;
         private double priceFactor;
+        private int trucksIndex;
 
         public Trucks(int trucksIndexFromOutside)
         {
@@ -122,11 +119,6 @@ namespace Zusammenbau
         public int GetPrice()
         {
             return price;
-        }
-
-        public string[] GetHeaderStrings()
-        {
-            return headerStrings;
         }
 
         private double CalcPrice()
