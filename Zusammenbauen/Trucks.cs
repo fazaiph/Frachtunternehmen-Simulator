@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Zusammenbauen
 {
@@ -13,19 +12,16 @@ namespace Zusammenbauen
             { "Amsterdam", "Berlin", "Esslingen", "Rom", "Lissabon", "Istanbul", "Aarhus", "Tallin" };
 
         private readonly string[] availableTypes = { "Kühllastwagen", "Pritschenwagen", "Tanklaster" };
-        private readonly string currentLocation;
-        private readonly int power, maxLoad, fuelConsumption;
-        private readonly int price;
-        private readonly List<string> printingList = new List<string>();
-        private readonly List<int> stringLengthPerColumn = new List<int>();
+        private readonly string currentLocation, type, size;
+        private readonly int power, maxLoad, fuelConsumption, price;
         private readonly Mapper truckMapper = new Mapper();
         private readonly string[] truckSizes = { "Klein", "Medium", "Groß", "Riesig" };
-        private readonly string type, size;
         private double priceFactor;
         private int trucksIndex;
 
         public Trucks(int trucksIndexFromOutside)
         {
+            trucksIndex = trucksIndexFromOutside;
             type = availableTypes[rndNum.Next(3)];
             age = rndNum.Next(11);
             currentLocation = availableLocations[rndNum.Next(8)];
@@ -34,47 +30,14 @@ namespace Zusammenbauen
             maxLoad = Mapper.MapMaxLoad(size, type);
             fuelConsumption = CalcFuelConsumption();
             price = (int)CalcPrice();
-            trucksIndex = trucksIndexFromOutside;
-            FileStringLengthList();
-            FileStringsAsList();
         }
 
-        private void FileStringLengthList()
+        public int GetTruckIndex()
         {
-            stringLengthPerColumn.Add(trucksIndex.ToString().Length + 2);
-            stringLengthPerColumn.Add(type.Length + 2);
-            stringLengthPerColumn.Add(GetAgeAsString().Length + 2);
-            stringLengthPerColumn.Add(power.ToString().Length + 2);
-            stringLengthPerColumn.Add(maxLoad.ToString().Length + 2);
-            stringLengthPerColumn.Add(fuelConsumption.ToString().Length + 2);
-            stringLengthPerColumn.Add(price.ToString().Length + 6);
-            stringLengthPerColumn.Add(currentLocation.Length + 2);
+            return trucksIndex;
         }
 
-        private void FileStringsAsList()
-        {
-            printingList.Add(trucksIndex.ToString());
-            printingList.Add(type);
-            printingList.Add(GetAgeAsString());
-            printingList.Add(power.ToString().Insert(power.ToString().Length, "kW"));
-            printingList.Add(maxLoad.ToString().Insert(maxLoad.ToString().Length, "T"));
-            printingList.Add(fuelConsumption.ToString().Insert(fuelConsumption.ToString().Length, "L"));
-            printingList.Add(price.ToString().Insert(price.ToString().Length, "EUR"));
-            printingList.Add(currentLocation);
-        }
-
-        public List<string> GetPrintingList()
-        {
-            return printingList;
-        }
-
-        public List<int> GetStringLengthPerColumn()
-        {
-            return stringLengthPerColumn;
-        }
-
-
-        public string GetLKWType()
+        public string GetTruckType()
         {
             return type;
         }
@@ -142,13 +105,6 @@ namespace Zusammenbauen
         public void SetID(int newID)
         {
             trucksIndex = newID;
-        }
-
-        public void UpdatePrintingList(int index, int newContent)
-        {
-            var newItem = newContent.ToString();
-            printingList.RemoveAt(index);
-            printingList.Insert(index, newItem);
         }
     }
 }

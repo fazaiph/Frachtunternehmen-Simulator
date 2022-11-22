@@ -7,6 +7,7 @@ namespace Zusammenbauen
     {
         private static readonly List<Trucks> trucksOnTheMarket = new List<Trucks>();
         private static readonly UI myUI = new UI();
+        private static readonly UIpreparator Uiprep = new UIpreparator();
         private static ConsoleKeyInfo selection;
 
         public TruckMarket()
@@ -27,12 +28,13 @@ namespace Zusammenbauen
         public void OpenTrucksMarket(Company activeCompany)
         {
             var selectionIsValid = true;
-            foreach (var truck in trucksOnTheMarket) myUI.CalcMaxStringLengthForTrucks(truck);
+            foreach (var truck in trucksOnTheMarket) Uiprep.CalcMaxStringLengthForTrucks(truck);
 
-            myUI.PrintTableHeaders(myUI.GetHeaderStringsForTrucks(), myUI.GetMaxStringLengthForTrucks());
+            myUI.PrintTableHeaders(Uiprep.GetHeaderStringsForTrucks(), Uiprep.GetMaxStringLengthForTrucks());
 
             foreach (var truck in trucksOnTheMarket)
-                myUI.PrintTable(truck.GetPrintingList().ToArray(), myUI.GetMaxStringLengthForTrucks());
+                myUI.PrintTable(Uiprep.FileStringsAsListForTrucks(truck).ToArray(),
+                    Uiprep.GetMaxStringLengthForTrucks());
             do
             {
                 Console.WriteLine("Kaufe einen Truck mit 1-{0} oder kehre zurück mit z", trucksOnTheMarket.Count);
@@ -69,12 +71,8 @@ namespace Zusammenbauen
 
         private static void UpdateTruckIds()
         {
-            var newID = 0;
-            foreach (var truck in trucksOnTheMarket)
-            {
-                truck.SetID(newID++);
-                truck.UpdatePrintingList(0, newID);
-            }
+            var newID = 1;
+            foreach (var truck in trucksOnTheMarket) truck.SetID(newID++);
         }
     }
 }
