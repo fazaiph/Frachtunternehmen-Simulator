@@ -8,13 +8,15 @@ namespace Zusammenbauen
 
         private static int[] maxStringLengthForDrivers = { 3, 8, 8, 5 };
 
+        private static int[] maxStringLengthForJobs = { 3, 6, 5, 10, 9, 9, 13, 11, 8 };
+
         private static readonly string[] headerStringsForTrucks =
             { " #", " Typ", " Alter", " Leistung", " Zuladung", " Verbrauch", " Preis", " Ort" };
 
         private readonly string[] headerStringsForDrivers =
             { " # ", " Fahrer", " Gehalt", " Typ" };
 
-        private readonly string[] jobHeaderStrings =
+        private readonly string[] headerStringsForJob =
             { " # ", " Ware", " Typ", " Startort", " Zielort", " Gewicht", " Lieferdatum", " Vergütung", " Strafe" };
 
         public List<int> FileStringLengthListForTrucks(Trucks truck)
@@ -68,6 +70,36 @@ namespace Zusammenbauen
             return printingList;
         }
 
+        private List<int> FileStringLengthListForJobs(Job job)
+        {
+            List<int> stringLengthPerColumn = new List<int>();
+            stringLengthPerColumn.Add(job.GetJobIndex().ToString().Length + 2);
+            stringLengthPerColumn.Add(job.GetGoodsType().Length + 2);
+            stringLengthPerColumn.Add(job.GetRequiredTruckType().Length + 2);
+            stringLengthPerColumn.Add(job.GetOriginCity().Length + 2);
+            stringLengthPerColumn.Add(job.GetDestinationCity().Length + 2);
+            stringLengthPerColumn.Add(job.GetTotalWeight().ToString().Length + 4);
+            stringLengthPerColumn.Add(job.GetDeliveryDateAsString().Length + 2);
+            stringLengthPerColumn.Add(job.GetPayment().ToString().Length + 4);
+            stringLengthPerColumn.Add(job.GetFine().ToString().Length + 5);
+            return stringLengthPerColumn;
+        }
+
+        public List<string> FileStringsAsListForJobs(Job job)
+        {
+            List<string> printingList = new List<string>();
+            printingList.Add(job.GetJobIndex().ToString());
+            printingList.Add(job.GetGoodsType());
+            printingList.Add(job.GetRequiredTruckType());
+            printingList.Add(job.GetOriginCity());
+            printingList.Add(job.GetDestinationCity());
+            printingList.Add(job.GetTotalWeight().ToString().Insert(job.GetTotalWeight().ToString().Length, "T"));
+            printingList.Add(job.GetDeliveryDateAsString());
+            printingList.Add(job.GetPayment().ToString().Insert(job.GetPayment().ToString().Length, "EUR"));
+            printingList.Add(job.GetFine().ToString().Insert(job.GetFine().ToString().Length, "EUR"));
+            return printingList;
+        }
+
         public void CalcMaxStringLengthForTrucks(Trucks truck)
         {
             maxStringLengthForTrucks = CalcMaxStringLengthPerColumn(maxStringLengthForTrucks,
@@ -109,6 +141,23 @@ namespace Zusammenbauen
         public string[] GetHeaderStringsForDrivers()
         {
             return headerStringsForDrivers;
+        }
+
+        public void CalcMaxStringLengthForJobs(Job job)
+        {
+            maxStringLengthForJobs = CalcMaxStringLengthPerColumn(maxStringLengthForJobs,
+                FileStringLengthListForJobs(job).ToArray(),
+                maxStringLengthForJobs.Length);
+        }
+
+        public string[] GetHeaderStringsForJobs()
+        {
+            return headerStringsForJob;
+        }
+
+        public int[] GetMaxStringLengthForJobs()
+        {
+            return maxStringLengthForJobs;
         }
     }
 }

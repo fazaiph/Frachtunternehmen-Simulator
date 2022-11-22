@@ -37,7 +37,7 @@ namespace Zusammenbauen
                     Uiprep.GetMaxStringLengthForTrucks());
             do
             {
-                Console.WriteLine("Kaufe einen Truck mit 1-{0} oder kehre zurück mit z", trucksOnTheMarket.Count);
+                Console.WriteLine("Kaufen Sie einen Truck mit 1-{0} oder kehren Sie zurück mit z", trucksOnTheMarket.Count);
                 selectionIsValid = true;
                 selection = Console.ReadKey(true);
                 var test = Convert.ToChar(trucksOnTheMarket.Count.ToString());

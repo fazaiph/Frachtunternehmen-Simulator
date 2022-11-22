@@ -18,7 +18,7 @@ namespace Zusammenbauen
             myUI.NameSelectionScreen();
             companyName = Console.ReadLine();
             CreateGame();
-            while (true) //für's erste ne Dauerschleife, da nochnicht gefordert, das Spiel verlassen zu können
+            while (true) //für's erste ne Dauerschleife, da noch nicht gefordert, das Spiel verlassen zu können
             {
                 MainMenu(activeCompany);
 
@@ -33,8 +33,7 @@ namespace Zusammenbauen
                         break;
 
                     case '3':
-                        Console.WriteLine("pressed 3");
-                        //myUI.DisplayMarket("Job");
+                        jobOfferMarket.OpenJobOfferMarket(activeCompany);
                         break;
 
                     case '4':

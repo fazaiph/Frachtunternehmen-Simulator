@@ -41,7 +41,7 @@ namespace Zusammenbauen
                     Uiprep.GetMaxStringLengthForDrivers());
             do
             {
-                Console.WriteLine("Kaufe einen Truck mit 1-{0} oder kehre zurück mit z", jobSeekingDrivers.Count);
+                Console.WriteLine("Wählen Sie einen Fahrer mit 1-{0} oder kehren Sie zurück mit z", jobSeekingDrivers.Count);
                 selectionIsValid = true;
                 selection = Console.ReadKey(true);
                 var test = Convert.ToChar(jobSeekingDrivers.Count.ToString());

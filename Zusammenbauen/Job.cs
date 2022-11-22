@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Zusammenbauen
 {
@@ -13,18 +12,18 @@ namespace Zusammenbauen
 
         private readonly double bonusFactor, payment, fine;
         private readonly DateTime deliveryDate;
+        private readonly int deliveryDays, maxDays;
 
 
         private readonly string goodsType, originCity, destinationCity, requiredTruckType;
         private readonly Mapper mapper = new Mapper();
-        private readonly List<string> printingList = new List<string>();
         private readonly Random rndNum = new Random();
-
-        private readonly List<int> stringLengthPerColumn = new List<int>();
-        private readonly int totalWeight, jobIndex, deliveryDays, maxDays;
+        private readonly int totalWeight;
+        private int jobIndex;
 
         public Job(int jobIndexFromOutside)
         {
+            jobIndex = jobIndexFromOutside;
             goodsType = availableGoods[rndNum.Next(9)];
             requiredTruckType = Mapper.MapGoodsTypeToTruckType(goodsType);
             totalWeight = rndNum.Next(1, Mapper.MapMaxLoad("Riesig", requiredTruckType));
@@ -37,50 +36,56 @@ namespace Zusammenbauen
                 rndNum.NextDouble();
             payment = mapper.MapMinPricePerTon(goodsType) * totalWeight * bonusFactor;
             fine = rndNum.Next(50, 201) * payment / 100;
-            jobIndex = jobIndexFromOutside;
-            FileStringLengthList();
-            FileStringsAsList();
         }
 
-        private void FileStringLengthList()
-        {
-            stringLengthPerColumn.Add(jobIndex.ToString().Length + 2);
-            stringLengthPerColumn.Add(goodsType.Length + 2);
-            stringLengthPerColumn.Add(requiredTruckType.Length + 2);
-            stringLengthPerColumn.Add(originCity.Length + 2);
-            stringLengthPerColumn.Add(destinationCity.Length + 2);
-            stringLengthPerColumn.Add(totalWeight.ToString().Length + 4);
-            stringLengthPerColumn.Add(GetDeliveryDateAsString().Length + 2);
-            stringLengthPerColumn.Add(payment.ToString().Length + 4);
-            stringLengthPerColumn.Add(fine.ToString().Length + 5);
-        }
-
-        private void FileStringsAsList()
-        {
-            printingList.Add(jobIndex.ToString());
-            printingList.Add(goodsType);
-            printingList.Add(requiredTruckType);
-            printingList.Add(originCity);
-            printingList.Add(destinationCity);
-            printingList.Add(totalWeight.ToString().Insert(totalWeight.ToString().Length, "T"));
-            printingList.Add(GetDeliveryDateAsString());
-            printingList.Add(payment.ToString().Insert(payment.ToString().Length, "EUR"));
-            printingList.Add(fine.ToString().Insert(fine.ToString().Length, "EUR"));
-        }
-
-        public List<string> GetPrintingList()
-        {
-            return printingList;
-        }
-
-        public List<int> GetMaxStringLengthPerColumn()
-        {
-            return stringLengthPerColumn;
-        }
-
-        private string GetDeliveryDateAsString()
+        public string GetDeliveryDateAsString()
         {
             return deliveryDate.ToString("dd.MM.yyyy");
+        }
+
+        public int GetJobIndex()
+        {
+            return jobIndex;
+        }
+
+        public string GetGoodsType()
+        {
+            return goodsType;
+        }
+
+        public string GetRequiredTruckType()
+        {
+            return requiredTruckType;
+        }
+
+        public string GetOriginCity()
+        {
+            return originCity;
+        }
+
+        public string GetDestinationCity()
+        {
+            return destinationCity;
+        }
+
+        public int GetTotalWeight()
+        {
+            return totalWeight;
+        }
+
+        public double GetPayment()
+        {
+            return Math.Round(payment, 2);
+        }
+
+        public double GetFine()
+        {
+            return Math.Round(fine, 2);
+        }
+
+        public void SetID(int newID)
+        {
+            jobIndex = newID;
         }
     }
 }

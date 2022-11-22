@@ -9,7 +9,7 @@ namespace Zusammenbauen
         private readonly List<Trucks> ownedTrucks = new List<Trucks>();
         private readonly List<Job> pendingJobs = new List<Job>();
         private long companyCash;
-        private int numberOfEmployees, numberOfOwnedTrucks, numberOfJobs;
+        private int numberOfEmployees, numberOfOwnedTrucks, numberOfPendingJobs;
 
         public Company(string chosenName)
         {
@@ -17,7 +17,7 @@ namespace Zusammenbauen
             companyCash = 50000;
             numberOfEmployees = 0;
             numberOfOwnedTrucks = 0;
-            numberOfJobs = 0;
+            numberOfPendingJobs = 0;
         }
 
         public int GetNumberOfEmployees()
@@ -32,7 +32,7 @@ namespace Zusammenbauen
 
         public int GetNumberOfJobs()
         {
-            return numberOfJobs;
+            return numberOfPendingJobs;
         }
 
         public string GetCompanyName()
@@ -49,7 +49,7 @@ namespace Zusammenbauen
         {
             numberOfEmployees = employedDrivers.Count;
             numberOfOwnedTrucks = ownedTrucks.Count;
-            numberOfJobs = pendingJobs.Count;
+            numberOfPendingJobs = pendingJobs.Count;
         }
 
         public void SetCompanyCash(long newCash)
@@ -67,6 +67,12 @@ namespace Zusammenbauen
         {
             employedDrivers.Add(freshlyEmployedDriver);
             numberOfEmployees++;
+        }
+
+        public void AddJobToPendingJobsList(Job jobOffer)
+        {
+            pendingJobs.Add(jobOffer);
+            numberOfPendingJobs++;
         }
     }
 }
