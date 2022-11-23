@@ -2,12 +2,12 @@
 
 namespace Zusammenbauen
 {
-    internal class Program
+    public class Program
     {
         private static readonly UI myUI = new UI();
         private static ConsoleKeyInfo selection;
         private static string companyName;
-        private static DateTime gameDate = DateTime.Now;
+        public static DateTime gameDate = DateTime.Now;
         private static Company activeCompany;
         private static JobOfferMarket jobOfferMarket;
         private static DriversMarket driversMarket;
@@ -37,8 +37,7 @@ namespace Zusammenbauen
                         break;
 
                     case '4':
-                        //Console.WriteLine("In Branch 4");
-                        gameDate = gameDate.AddDays(1);
+                        EndRound();
                         break;
 
                     default:
@@ -48,6 +47,11 @@ namespace Zusammenbauen
             }
 
             Console.WriteLine("escaped");
+        }
+
+        public static void EndRound()
+        {
+            gameDate = gameDate.AddDays(1);
         }
 
         public static void MainMenu(Company activeCompany)

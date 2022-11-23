@@ -2,7 +2,7 @@
 
 namespace Zusammenbauen
 {
-    internal class Trucks
+    public class Trucks
     {
         private static readonly Random rndNum = new Random();
 

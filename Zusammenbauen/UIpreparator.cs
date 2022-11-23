@@ -72,7 +72,7 @@ namespace Zusammenbauen
 
         private List<int> FileStringLengthListForJobs(Job job)
         {
-            List<int> stringLengthPerColumn = new List<int>();
+            var stringLengthPerColumn = new List<int>();
             stringLengthPerColumn.Add(job.GetJobIndex().ToString().Length + 2);
             stringLengthPerColumn.Add(job.GetGoodsType().Length + 2);
             stringLengthPerColumn.Add(job.GetRequiredTruckType().Length + 2);
@@ -87,7 +87,7 @@ namespace Zusammenbauen
 
         public List<string> FileStringsAsListForJobs(Job job)
         {
-            List<string> printingList = new List<string>();
+            var printingList = new List<string>();
             printingList.Add(job.GetJobIndex().ToString());
             printingList.Add(job.GetGoodsType());
             printingList.Add(job.GetRequiredTruckType());

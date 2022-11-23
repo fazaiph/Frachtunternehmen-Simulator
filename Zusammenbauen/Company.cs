@@ -2,7 +2,7 @@
 
 namespace Zusammenbauen
 {
-    internal class Company
+    public class Company
     {
         private readonly string companyName;
         private readonly List<Drivers> employedDrivers = new List<Drivers>();
@@ -18,6 +18,21 @@ namespace Zusammenbauen
             numberOfEmployees = 0;
             numberOfOwnedTrucks = 0;
             numberOfPendingJobs = 0;
+        }
+
+        public List<Job> GetListOfPendingJobs()
+        {
+            return pendingJobs;
+        }
+
+        public List<Drivers> GetListOfEmployedDrivers()
+        {
+            return employedDrivers;
+        }
+
+        public List<Trucks> GetListOfOwnedTrucks()
+        {
+            return ownedTrucks;
         }
 
         public int GetNumberOfEmployees()

@@ -2,7 +2,7 @@
 
 namespace Zusammenbauen
 {
-    internal class Job
+    public class Job
     {
         private readonly string[] availableCites =
             { "Amsterdam", "Berlin", "Esslingen", "Rom", "Lissabon", "Istanbul", "Aarhus", "Tallin" };

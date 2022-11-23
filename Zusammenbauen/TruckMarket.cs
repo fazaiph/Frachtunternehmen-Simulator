@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Zusammenbauen
 {
-    internal class TruckMarket
+    public class TruckMarket
     {
         private static readonly List<Trucks> trucksOnTheMarket = new List<Trucks>();
         private static readonly UI myUI = new UI();
@@ -37,7 +37,8 @@ namespace Zusammenbauen
                     Uiprep.GetMaxStringLengthForTrucks());
             do
             {
-                Console.WriteLine("Kaufen Sie einen Truck mit 1-{0} oder kehren Sie zurück mit z", trucksOnTheMarket.Count);
+                Console.WriteLine("Kaufen Sie einen Truck mit 1-{0} oder kehren Sie zurück mit z",
+                    trucksOnTheMarket.Count);
                 selectionIsValid = true;
                 selection = Console.ReadKey(true);
                 var test = Convert.ToChar(trucksOnTheMarket.Count.ToString());
@@ -63,7 +64,7 @@ namespace Zusammenbauen
             RemoveTruckFromMarket(selectedTruckIdAsInt);
         }
 
-        private static void RemoveTruckFromMarket(int selectedTruckId)
+        public static void RemoveTruckFromMarket(int selectedTruckId)
         {
             trucksOnTheMarket.RemoveAt(selectedTruckId);
             UpdateTrucksOnTheMarketIds();
@@ -73,6 +74,11 @@ namespace Zusammenbauen
         {
             var newID = 1;
             foreach (var truck in trucksOnTheMarket) truck.SetID(newID++);
+        }
+
+        public static List<Trucks> GetTrucksOnTheMarketList()
+        {
+            return trucksOnTheMarket;
         }
     }
 }

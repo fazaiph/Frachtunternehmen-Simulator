@@ -2,7 +2,7 @@
 
 namespace Zusammenbauen
 {
-    internal class Drivers
+    public class Drivers
     {
         private readonly string[] availableTypes =
         {

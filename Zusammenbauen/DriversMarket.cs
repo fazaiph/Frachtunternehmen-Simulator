@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Zusammenbauen
 {
-    internal class DriversMarket
+    public class DriversMarket
     {
         private static readonly List<Drivers> jobSeekingDrivers = new List<Drivers>();
         private static readonly NameFileHandler nameHandling = new NameFileHandler();
@@ -41,7 +41,8 @@ namespace Zusammenbauen
                     Uiprep.GetMaxStringLengthForDrivers());
             do
             {
-                Console.WriteLine("Wählen Sie einen Fahrer mit 1-{0} oder kehren Sie zurück mit z", jobSeekingDrivers.Count);
+                Console.WriteLine("Wählen Sie einen Fahrer mit 1-{0} oder kehren Sie zurück mit z",
+                    jobSeekingDrivers.Count);
                 selectionIsValid = true;
                 selection = Console.ReadKey(true);
                 var test = Convert.ToChar(jobSeekingDrivers.Count.ToString());
@@ -65,7 +66,7 @@ namespace Zusammenbauen
             RemoveDriverFromMarket(selectedDriverIdAsInt);
         }
 
-        private void RemoveDriverFromMarket(int selectedDriverId)
+        public void RemoveDriverFromMarket(int selectedDriverId)
         {
             jobSeekingDrivers.RemoveAt(selectedDriverId);
             UpdateJobSeekingDriversIds();
@@ -75,6 +76,11 @@ namespace Zusammenbauen
         {
             var newID = 1;
             foreach (var driver in jobSeekingDrivers) driver.SetID(newID++);
+        }
+
+        public List<Drivers> GetListOfJobSeekingDrivers()
+        {
+            return jobSeekingDrivers;
         }
     }
 }

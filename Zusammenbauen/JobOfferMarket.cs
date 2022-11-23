@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Zusammenbauen
 {
-    internal class JobOfferMarket
+    public class JobOfferMarket
     {
         private static readonly List<Job> jobOffers = new List<Job>();
         private static readonly NameFileHandler nameHandling = new NameFileHandler();
@@ -61,10 +61,10 @@ namespace Zusammenbauen
         {
             var selectedJobIdAsInt = Convert.ToInt32(selectedJobId) - 1;
             activeCompany.AddJobToPendingJobsList(jobOffers[selectedJobIdAsInt]);
-            RemoveJobFromMarket(selectedJobIdAsInt);
+            RemoveJobFromJobOfferMarket(selectedJobIdAsInt);
         }
 
-        private void RemoveJobFromMarket(int selectedDriverId)
+        public void RemoveJobFromJobOfferMarket(int selectedDriverId)
         {
             jobOffers.RemoveAt(selectedDriverId);
             UpdateJobOfferIds();
@@ -74,6 +74,11 @@ namespace Zusammenbauen
         {
             var newID = 1;
             foreach (var job in jobOffers) job.SetID(newID++);
+        }
+
+        public List<Job> GetListOfJobOffers()
+        {
+            return jobOffers;
         }
     }
 }
