@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using static Zusammenbauen.Businesslogic;
+using static Zusammenbauen.UI;
 
 namespace Zusammenbauen
 {
@@ -7,9 +9,6 @@ namespace Zusammenbauen
     {
         private static readonly List<Driver> jobSeekingDrivers = new List<Driver>();
         private static readonly NameFileHandler nameHandling = new NameFileHandler();
-        private static readonly UI myUI = new UI();
-        private static readonly UIpreparator Uiprep = new UIpreparator();
-        private static readonly Businesslogic driverBlogic = new Businesslogic();
         private static ConsoleKeyInfo selection;
         private Company activeCompany;
 
@@ -34,10 +33,10 @@ namespace Zusammenbauen
         {
             Console.Clear();
             ConsoleKeyInfo selectedDriverId;
-            myUI.PrintListOfDrivers(jobSeekingDrivers);
+            PrintListOfDrivers(jobSeekingDrivers);
             selectedDriverId = SelectDriver(jobSeekingDrivers);
             if (!'z'.Equals(selectedDriverId.KeyChar))
-                driverBlogic.employDriver(activeCompany, selectedDriverId.KeyChar.ToString(), jobSeekingDrivers);
+                employDriver(activeCompany, selectedDriverId.KeyChar.ToString(), jobSeekingDrivers);
         }
 
         public static ConsoleKeyInfo SelectDriver(List<Driver> listOfDrivers)

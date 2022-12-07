@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using static Zusammenbauen.Businesslogic;
+using static Zusammenbauen.UI;
 
 namespace Zusammenbauen
 {
     public class TruckMarket
     {
         private static readonly List<Truck> trucksOnTheMarket = new List<Truck>();
-        private static readonly UI myUI = new UI();
-        private static readonly Businesslogic TruckBLogic = new Businesslogic();
-        private static readonly UIpreparator Uiprep = new UIpreparator();
-
+        private int[] initialMaxStringLengthForTrucks = { 3, 5, 7, 10, 10, 11, 7, 5 };
 
         public TruckMarket()
         {
@@ -30,10 +29,10 @@ namespace Zusammenbauen
         {
             Console.Clear();
             ConsoleKeyInfo selectedTruckId;
-            myUI.PrintListOfTrucks(trucksOnTheMarket);
+            PrintListOfTrucks(trucksOnTheMarket);
             selectedTruckId = SelectATruck(trucksOnTheMarket);
             if (!'z'.Equals(selectedTruckId.KeyChar))
-                TruckBLogic.BuyTruck(activeCompany, selectedTruckId.KeyChar.ToString(), trucksOnTheMarket);
+                BuyTruck(activeCompany, selectedTruckId.KeyChar.ToString(), trucksOnTheMarket);
         }
 
         public static List<Truck> GetTrucksOnTheMarketList()

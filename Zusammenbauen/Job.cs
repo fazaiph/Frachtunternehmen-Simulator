@@ -13,10 +13,9 @@ namespace Zusammenbauen
         private readonly double bonusFactor, payment, fine;
         private readonly DateTime deliveryDate;
         private readonly int deliveryDays, maxDays;
-
-
-        private readonly string goodsType, originCity, destinationCity, requiredTruckType;
+        private readonly string goodsType, originCity, destinationCity;
         private readonly Mapper mapper = new Mapper();
+        private readonly Truck.truckType requiredTruckType;
         private readonly Random rndNum = new Random();
         private readonly int totalWeight;
         private int jobIndex;
@@ -26,7 +25,7 @@ namespace Zusammenbauen
             jobIndex = jobIndexFromOutside;
             goodsType = availableGoods[rndNum.Next(9)];
             requiredTruckType = Mapper.MapGoodsTypeToTruckType(goodsType);
-            totalWeight = rndNum.Next(1, Mapper.MapMaxLoad("Riesig", requiredTruckType));
+            totalWeight = rndNum.Next(1, Mapper.MapMaxLoad(Truck.truckSize.Riesig, requiredTruckType));
             originCity = availableCites[rndNum.Next(8)];
             destinationCity = availableCites[rndNum.Next(8)];
             maxDays = Mapper.MapMaxDays(goodsType);
@@ -53,7 +52,7 @@ namespace Zusammenbauen
             return goodsType;
         }
 
-        public string GetRequiredTruckType()
+        public Truck.truckType GetRequiredTruckType()
         {
             return requiredTruckType;
         }

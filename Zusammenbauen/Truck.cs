@@ -4,30 +4,54 @@ namespace Zusammenbauen
 {
     public class Truck
     {
+        public enum location
+        {
+            Unterwegs = 0,
+            Amsterdam = 1,
+            Berlin = 2,
+            Esslingen = 3,
+            Rom = 4,
+            Lissabon = 5,
+            Istanbul = 6,
+            Aarhus = 7,
+            Tallin = 8
+        }
+
+        public enum truckSize
+        {
+            Klein = 0,
+            Medium = 1,
+            Groß = 2,
+            Riesig = 3
+        }
+
+        public enum truckType
+        {
+            Pritschenwagen = 0,
+            Tanklaster = 1,
+            Kühllastwagen = 2
+        }
+
         private static readonly Random rndNum = new Random();
 
         private readonly int age;
-
-        private readonly string[] availableLocations =
-            { "Amsterdam", "Berlin", "Esslingen", "Rom", "Lissabon", "Istanbul", "Aarhus", "Tallin" };
-
-        private readonly string[] availableTypes = { "Kühllastwagen", "Pritschenwagen", "Tanklaster" };
-        private readonly string currentLocation, type, size;
         private readonly int power, maxLoad, fuelConsumption, price;
+        private readonly truckSize size;
         private readonly Mapper truckMapper = new Mapper();
-        private readonly string[] truckSizes = { "Klein", "Medium", "Groß", "Riesig" };
         private Driver assginedDriver;
+        private location currentLocation;
         public bool isDriverless;
         private double priceFactor;
         private int trucksIndex;
+        private readonly truckType type;
 
         public Truck(int trucksIndexFromOutside)
         {
             trucksIndex = trucksIndexFromOutside;
-            type = availableTypes[rndNum.Next(3)];
+            type = (truckType)rndNum.Next(3);
             age = rndNum.Next(11);
-            currentLocation = availableLocations[rndNum.Next(8)];
-            size = truckSizes[rndNum.Next(4)];
+            currentLocation = (location)rndNum.Next(1, 9);
+            size = (truckSize)rndNum.Next(4);
             power = truckMapper.MapTruckPower(size);
             maxLoad = Mapper.MapMaxLoad(size, type);
             fuelConsumption = CalcFuelConsumption();
@@ -55,7 +79,7 @@ namespace Zusammenbauen
             return trucksIndex;
         }
 
-        public string GetTruckType()
+        public truckType GetTruckType()
         {
             return type;
         }
@@ -65,12 +89,12 @@ namespace Zusammenbauen
             return age;
         }
 
-        public string GetCurrentLocation()
+        public location GetCurrentLocation()
         {
             return currentLocation;
         }
 
-        public string GetSize()
+        public truckSize GetSize()
         {
             return size;
         }
@@ -111,7 +135,7 @@ namespace Zusammenbauen
         private void CalcPriceFactor()
         {
             priceFactor = 1.0 + rndNum.Next(-20, 31) / 100.0 - age * 0.03;
-            if (type == "Küllastwagen") priceFactor += 0.1;
+            if (type == truckType.Kühllastwagen) priceFactor += 0.1;
         }
 
         private int CalcFuelConsumption()
@@ -123,6 +147,11 @@ namespace Zusammenbauen
         public void SetID(int newID)
         {
             trucksIndex = newID;
+        }
+
+        public void SetCurrentLocation(location newLocation)
+        {
+            currentLocation = newLocation;
         }
     }
 }

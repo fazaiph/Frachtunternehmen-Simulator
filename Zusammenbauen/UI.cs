@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using static Zusammenbauen.UIpreparator;
 
 namespace Zusammenbauen
 {
     internal class UI
     {
-        private static readonly UIpreparator Uiprep = new UIpreparator();
-
-        public void PrintTableHeaders(string[] marketTypeSpecificStrings, int[] maxLengthPerColumn)
+        public static void PrintTableHeaders(string[] marketTypeSpecificStrings, int[] maxLengthPerColumn)
         {
             for (var index = 0; index < marketTypeSpecificStrings.Length; index++)
             {
@@ -26,7 +25,7 @@ namespace Zusammenbauen
             Console.WriteLine("+");
         }
 
-        public void PrintTable(string[] stringsToPrint, int[] maxLengthPerColumn)
+        public static void PrintTable(string[] stringsToPrint, int[] maxLengthPerColumn)
         {
             for (var index = 0; index < stringsToPrint.Length; index++)
             {
@@ -37,7 +36,7 @@ namespace Zusammenbauen
             Console.WriteLine("|");
         }
 
-        public void DisplayMainMenu(Company company, DateTime date)
+        public static void DisplayMainMenu(Company company, DateTime date)
         {
             Console.Clear();
             DisplayOverviewHeader(company, date);
@@ -50,12 +49,12 @@ namespace Zusammenbauen
             Console.WriteLine("7.Runde beenden");
         }
 
-        public void NameSelectionScreen()
+        public static void NameSelectionScreen()
         {
             Console.WriteLine("Bitte geben Sie einen Namen für ihre Firma ein:");
         }
 
-        public void DisplayOverviewHeader(Company company, DateTime date)
+        public static void DisplayOverviewHeader(Company company, DateTime date)
         {
             company.UpdateCompanyNumbers();
             Console.WriteLine("| {0} | {1}EUR | {2} | {3} LKWs | {4} Fahrer | {5} Aufträge |", company.GetCompanyName(),
@@ -63,35 +62,44 @@ namespace Zusammenbauen
                 company.GetNumberOfEmployees(), company.GetNumberOfJobs());
         }
 
-        public void PrintListOfTrucks(List<Truck> listOfTrucks)
+        public static void PrintListOfTrucks(List<Truck> listOfTrucks)
         {
             int[] initialMaxStringLengthForTrucks = { 3, 5, 7, 10, 10, 11, 7, 5 };
             Console.Clear();
-            foreach (var truck in listOfTrucks) Uiprep.CalcMaxStringLengthForTrucks(truck);
+            foreach (var truck in listOfTrucks) CalcMaxStringLengthForTrucks(truck);
 
-            PrintTableHeaders(Uiprep.GetHeaderStringsForTrucks(), Uiprep.GetMaxStringLengthForTrucks());
+            PrintTableHeaders(GetHeaderStringsForTrucks(), GetMaxStringLengthForTrucks());
 
             foreach (var truck in listOfTrucks)
-                PrintTable(Uiprep.FileStringsAsListForTrucks(truck).ToArray(),
-                    Uiprep.GetMaxStringLengthForTrucks());
-
-            Uiprep.SetMaxStringLengthForTrucks(
-                initialMaxStringLengthForTrucks); //reset the maxStringLengthForTrucksArray
+                PrintTable(FileStringsAsListForTrucks(truck).ToArray(),
+                    GetMaxStringLengthForTrucks());
+            SetMaxStringLengthForTrucks(initialMaxStringLengthForTrucks);
         }
 
-        public void PrintListOfDrivers(List<Driver> listOfDrivers)
+        public static void PrintListOfDrivers(List<Driver> listOfDrivers)
         {
             int[] initialMaxStringLengthForDrivers = { 3, 8, 8, 5 };
             Console.Clear();
-            foreach (var driver in listOfDrivers) Uiprep.CalcMaxStringLengthForDrivers(driver);
+            foreach (var driver in listOfDrivers) CalcMaxStringLengthForDrivers(driver);
 
-            PrintTableHeaders(Uiprep.GetHeaderStringsForDrivers(), Uiprep.GetMaxStringLengthForDrivers());
+            PrintTableHeaders(GetHeaderStringsForDrivers(), GetMaxStringLengthForDrivers());
 
             foreach (var driver in listOfDrivers)
-                PrintTable(Uiprep.FileStringsAsListForDrivers(driver).ToArray(),
-                    Uiprep.GetMaxStringLengthForDrivers());
+                PrintTable(FileStringsAsListForDrivers(driver).ToArray(),
+                    GetMaxStringLengthForDrivers());
 
-            Uiprep.SetMaxStringLengthForDrivers(initialMaxStringLengthForDrivers);
+            SetMaxStringLengthForDrivers(initialMaxStringLengthForDrivers);
+        }
+
+        public static void PrintDestinationSelectionPage()
+        {
+            var index = 0;
+            Console.Clear();
+            foreach (var destination in Enum.GetNames(typeof(Truck.location)))
+                if (!(destination == "Unterwegs"))
+                    Console.WriteLine("{0}   {1}", ++index, destination);
+                else
+                    Console.WriteLine("Bitte Wählen Sie eine der aufgelisteten Orte als Ziel aus:");
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
+using static Zusammenbauen.TruckTransferCenter;
+using static Zusammenbauen.UI;
 
 namespace Zusammenbauen
 {
     public class Program
     {
-        private static readonly UI myUI = new UI();
         private static ConsoleKeyInfo selection;
         private static string companyName;
         public static DateTime gameDate = DateTime.Now;
@@ -12,11 +13,11 @@ namespace Zusammenbauen
         private static JobOfferMarket jobOfferMarket;
         private static DriversMarket driversMarket;
         private static TruckMarket truckMarket;
-        private static readonly Businesslogic BL = new Businesslogic();
+
 
         private static void Main(string[] args)
         {
-            myUI.NameSelectionScreen();
+            NameSelectionScreen();
             companyName = Console.ReadLine();
             CreateGame();
             while (true) //fürs erste ne Dauerschleife, da noch nicht gefordert, das Spiel verlassen zu können
@@ -38,15 +39,15 @@ namespace Zusammenbauen
                         break;
 
                     case '4':
-                        activeCompany.startAssignDriverToTruckRoutine(activeCompany);
+                        activeCompany.StartAssignDriverToTruckRoutine(activeCompany);
                         break;
 
                     case '5':
-
+                        StartTransferingATruck(activeCompany);
                         break;
 
                     case '6':
-
+                        //DispatchJob();
                         break;
 
                     case '7':
@@ -71,9 +72,9 @@ namespace Zusammenbauen
         {
             do
             {
-                myUI.DisplayMainMenu(activeCompany, gameDate);
+                DisplayMainMenu(activeCompany, gameDate);
                 selection = Console.ReadKey(true);
-            } while (selection.KeyChar < '1' || selection.KeyChar > '4');
+            } while (selection.KeyChar < '1' || selection.KeyChar > '7');
         }
 
         private static void CreateGame()

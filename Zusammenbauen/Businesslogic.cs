@@ -5,13 +5,9 @@ namespace Zusammenbauen
 {
     internal class Businesslogic
     {
-        private static readonly UI myUI = new UI();
-
-        private static readonly UIpreparator Uiprep = new UIpreparator();
-
         //********************************************************************************************************************
         //Truck related Business Logic
-        public void BuyTruck(Company buyingCompany, string selectedTruckId, List<Truck> trucksOnTheMarket)
+        public static void BuyTruck(Company buyingCompany, string selectedTruckId, List<Truck> trucksOnTheMarket)
         {
             var selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId) - 1;
             buyingCompany.SetCompanyCash(buyingCompany.GetCompanyCash() -
@@ -46,22 +42,23 @@ namespace Zusammenbauen
             listOfTrucksWithDrivers.Add(driverlessTrucks[formerTruckId]);
             RemoveTruckFromList(formerTruckId, driverlessTrucks);
             UpdateTruckIds(driverlessTrucks);
+            UpdateTruckIds(listOfTrucksWithDrivers);
         }
 
         //********************************************************************************************************************
         //Driver related Business Logic
-        public void employDriver(Company activeCompany, string selectedDriverId, List<Driver> jobSeekingDrivers)
+        public static void employDriver(Company activeCompany, string selectedDriverId, List<Driver> jobSeekingDrivers)
         {
             var selectedDriverIdAsInt = Convert.ToInt32(selectedDriverId) - 1;
             activeCompany.AddDriverToEmployedDriversList(jobSeekingDrivers[selectedDriverIdAsInt]);
-            RemoveDriverFromMarket(selectedDriverIdAsInt, jobSeekingDrivers);
+            RemoveDriverFromList(selectedDriverIdAsInt, jobSeekingDrivers);
             UpdateDriversIds(activeCompany.GetListOfEmployedDrivers());
         }
 
-        public void RemoveDriverFromMarket(int selectedDriverId, List<Driver> jobSeekingDrivers)
+        public static void RemoveDriverFromList(int selectedDriverId, List<Driver> listOfDrivers)
         {
-            jobSeekingDrivers.RemoveAt(selectedDriverId);
-            UpdateDriversIds(jobSeekingDrivers);
+            listOfDrivers.RemoveAt(selectedDriverId);
+            UpdateDriversIds(listOfDrivers);
         }
 
         private static List<Driver> UpdateDriversIds(List<Driver> listOfDrivers)
@@ -73,14 +70,14 @@ namespace Zusammenbauen
 
         //********************************************************************************************************************
         //Job related Business Logic
-        public void acceptJob(Company activeCompany, string selectedJobId, List<Job> jobOffers)
+        public static void acceptJob(Company activeCompany, string selectedJobId, List<Job> jobOffers)
         {
             var selectedJobIdAsInt = Convert.ToInt32(selectedJobId) - 1;
             activeCompany.AddJobToPendingJobsList(jobOffers[selectedJobIdAsInt]);
             RemoveJobFromJobOfferMarket(selectedJobIdAsInt, jobOffers);
         }
 
-        public void RemoveJobFromJobOfferMarket(int selectedDriverId, List<Job> jobOffers)
+        public static void RemoveJobFromJobOfferMarket(int selectedDriverId, List<Job> jobOffers)
         {
             jobOffers.RemoveAt(selectedDriverId);
             UpdateJobOfferIds(jobOffers);
@@ -90,6 +87,11 @@ namespace Zusammenbauen
         {
             var newID = 1;
             foreach (var job in jobOffers) job.SetID(newID++);
+        }
+
+        public static void ChangeTruckLocation(Truck truck, Truck.location newLocation)
+        {
+            truck.SetCurrentLocation(newLocation);
         }
     }
 }

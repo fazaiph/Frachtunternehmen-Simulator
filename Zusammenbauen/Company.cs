@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using static Zusammenbauen.TruckMarket;
 using static Zusammenbauen.DriversMarket;
 using static Zusammenbauen.Businesslogic;
+using static Zusammenbauen.UI;
 
 namespace Zusammenbauen
 {
     public class Company
     {
-        private static readonly UI myUI = new UI();
-        private static readonly UIpreparator Uiprep = new UIpreparator();
+        private static readonly List<Truck> ownedTrucksWithDrivers = new List<Truck>();
         private readonly string companyName;
         private readonly List<Driver> employedDrivers = new List<Driver>();
         private readonly List<Job> pendingJobs = new List<Job>();
         private long companyCash;
         private List<Truck> driverlessOwnedTrucks = new List<Truck>();
-        private int numberOfEmployees, numberOfOwnedTrucks, numberOfPendingJobs;
 
-        private readonly List<Truck> ownedTrucksWithDrivers = new List<Truck>();
+        private int numberOfEmployees, numberOfOwnedTrucks, numberOfPendingJobs;
         //private static readonly TruckMarket TM = new TruckMarket();
 
         public Company(string chosenName)
@@ -99,17 +98,17 @@ namespace Zusammenbauen
             numberOfPendingJobs++;
         }
 
-        public void startAssignDriverToTruckRoutine(Company activeCompany)
+        public void StartAssignDriverToTruckRoutine(Company activeCompany)
         {
             ConsoleKeyInfo selectedTruckId, selectedDriverId;
             int selectedTruckIdAsInt, selectedDriverIdAsInt;
-            myUI.PrintListOfTrucks(driverlessOwnedTrucks);
+            PrintListOfTrucks(driverlessOwnedTrucks);
             selectedTruckId = SelectATruck(driverlessOwnedTrucks);
             if (!'z'.Equals(selectedTruckId.KeyChar))
                 selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId.KeyChar.ToString());
             else
                 return;
-            myUI.PrintListOfDrivers(employedDrivers);
+            PrintListOfDrivers(employedDrivers);
             selectedDriverId = SelectDriver(employedDrivers);
             if (!'z'.Equals(selectedDriverId.KeyChar))
                 selectedDriverIdAsInt = Convert.ToInt32(selectedDriverId.KeyChar.ToString());
@@ -123,6 +122,11 @@ namespace Zusammenbauen
         public void SetDriverlessOwnedTrucks(List<Truck> listWithUpdateTruckIds)
         {
             driverlessOwnedTrucks = listWithUpdateTruckIds;
+        }
+
+        public List<Truck> GetListOfTrucksWithDrivers()
+        {
+            return ownedTrucksWithDrivers;
         }
     }
 }

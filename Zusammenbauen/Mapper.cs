@@ -6,53 +6,53 @@ namespace Zusammenbauen
     {
         private readonly Random rndNum = new Random();
 
-        public static string MapGoodsTypeToTruckType(string goodsType)
+        public static Truck.truckType MapGoodsTypeToTruckType(string goodsType)
         {
             return goodsType switch
             {
-                "Zigaretten" => "Pritschenwagen",
-                "Textilien" => "Pritschenwagen",
-                "Schokolade" => "Pritschenwagen",
-                "Früchte" => "Kühllastwagen",
-                "Eiscreme" => "Kühllastwagen",
-                "Fleisch" => "Kühllastwagen",
-                "Rohöl" => "Tanklaster",
-                "Heizöl" => "Tanklaster",
-                "Benzin" => "Tanklaster",
-                _ => "kein passender Wagen!"
+                "Zigaretten" => Truck.truckType.Pritschenwagen,
+                "Textilien" => Truck.truckType.Pritschenwagen,
+                "Schokolade" => Truck.truckType.Pritschenwagen,
+                "Früchte" => Truck.truckType.Kühllastwagen,
+                "Eiscreme" => Truck.truckType.Kühllastwagen,
+                "Fleisch" => Truck.truckType.Kühllastwagen,
+                "Rohöl" => Truck.truckType.Tanklaster,
+                "Heizöl" => Truck.truckType.Tanklaster,
+                "Benzin" => Truck.truckType.Tanklaster,
+                _ => Truck.truckType.Pritschenwagen
             };
         }
 
-        public static int MapMaxLoad(string size, string type)
+        public static int MapMaxLoad(Truck.truckSize size, Truck.truckType type)
         {
-            return size switch
+            return (int)size switch
             {
-                "Klein" => type switch
+                0 => (int)type switch
                 {
-                    "Pritschenwagen" => 4,
-                    "Tanklaster" => 2,
-                    "Kühllastwagen" => 3,
+                    0 => 4,
+                    1 => 2,
+                    2 => 3,
                     _ => 0
                 },
-                "Medium" => type switch
+                1 => (int)type switch
                 {
-                    "Pritschenwagen" => 6,
-                    "Tanklaster" => 4,
-                    "Kühllastwagen" => 4,
+                    0 => 6,
+                    1 => 4,
+                    2 => 4,
                     _ => 0
                 },
-                "Groß" => type switch
+                2 => (int)type switch
                 {
-                    "Pritschenwagen" => 7,
-                    "Tanklaster" => 8,
-                    "Kühllastwagen" => 5,
+                    0 => 7,
+                    1 => 8,
+                    2 => 5,
                     _ => 0
                 },
-                "Riesig" => type switch
+                3 => (int)type switch
                 {
-                    "Pritschenwagen" => 10,
-                    "Tanklaster" => 10,
-                    "Kühllastwagen" => 6,
+                    0 => 10,
+                    1 => 10,
+                    2 => 6,
                     _ => 0
                 },
                 _ => 0
@@ -93,62 +93,62 @@ namespace Zusammenbauen
             };
         }
 
-        public static int MapBaseTruckFuelConsumption(string size, string type)
+        public static int MapBaseTruckFuelConsumption(Truck.truckSize size, Truck.truckType type)
         {
-            return size switch
+            return (int)size switch
             {
-                "Klein" => type switch
+                0 => (int)type switch
                 {
-                    "Pritschenwagen" => 10,
-                    "Tanklaster" => 14,
-                    "Kühllastwagen" => 14,
+                    0 => 10,
+                    1 => 14,
+                    2 => 14,
                     _ => 0
                 },
-                "Medium" => type switch
+                1 => (int)type switch
                 {
-                    "Pritschenwagen" => 12,
-                    "Tanklaster" => 18,
-                    "Kühllastwagen" => 18,
+                    0 => 12,
+                    1 => 18,
+                    2 => 18,
                     _ => 0
                 },
-                "Groß" => type switch
+                2 => (int)type switch
                 {
-                    "Pritschenwagen" => 16,
-                    "Tanklaster" => 20,
-                    "Kühllastwagen" => 20,
+                    0 => 16,
+                    1 => 20,
+                    2 => 20,
                     _ => 0
                 },
-                "Riesig" => type switch
+                3 => (int)type switch
                 {
-                    "Pritschenwagen" => 22,
-                    "Tanklaster" => 30,
-                    "Kühllastwagen" => 30,
+                    0 => 22,
+                    1 => 30,
+                    2 => 30,
                     _ => 0
                 },
                 _ => 0
             };
         }
 
-        public static double MapBaseTruckPrice(string size)
+        public static double MapBaseTruckPrice(Truck.truckSize size)
         {
-            return size switch
+            return (int)size switch
             {
-                "Klein" => 25000.0,
-                "Medium" => 65000.0,
-                "Groß" => 80000.0,
-                "Riesig" => 120000.0,
+                0 => 25000.0,
+                1 => 65000.0,
+                2 => 80000.0,
+                3 => 120000.0,
                 _ => 0
             };
         }
 
-        public int MapTruckPower(string size)
+        public int MapTruckPower(Truck.truckSize size)
         {
-            return size switch
+            return (int)size switch
             {
-                "Klein" => rndNum.Next(10, 26),
-                "Medium" => rndNum.Next(30, 51),
-                "Groß" => rndNum.Next(40, 71),
-                "Riesig" => rndNum.Next(60, 81),
+                0 => rndNum.Next(10, 26),
+                1 => rndNum.Next(30, 51),
+                2 => rndNum.Next(40, 71),
+                3 => rndNum.Next(60, 81),
                 _ => 0
             };
         }

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using static Zusammenbauen.Businesslogic;
+using static Zusammenbauen.UIpreparator;
+using static Zusammenbauen.UI;
 
 namespace Zusammenbauen
 {
@@ -7,10 +10,7 @@ namespace Zusammenbauen
     {
         private static readonly List<Job> jobOffers = new List<Job>();
         private static readonly NameFileHandler nameHandling = new NameFileHandler();
-        private static readonly UI myUI = new UI();
         private static ConsoleKeyInfo selection;
-        private static readonly UIpreparator Uiprep = new UIpreparator();
-        private static readonly Businesslogic jobBLogic = new Businesslogic();
         private Company activeCompany;
 
         public JobOfferMarket()
@@ -31,17 +31,17 @@ namespace Zusammenbauen
         public void OpenJobOfferMarket(Company activeCompany)
         {
             ConsoleKeyInfo selectedJobOfferId;
-            foreach (var job in jobOffers) Uiprep.CalcMaxStringLengthForJobs(job);
+            foreach (var job in jobOffers) CalcMaxStringLengthForJobs(job);
 
-            myUI.PrintTableHeaders(Uiprep.GetHeaderStringsForJobs(), Uiprep.GetMaxStringLengthForJobs());
+            PrintTableHeaders(GetHeaderStringsForJobs(), GetMaxStringLengthForJobs());
 
             foreach (var job in jobOffers)
-                myUI.PrintTable(Uiprep.FileStringsAsListForJobs(job).ToArray(),
-                    Uiprep.GetMaxStringLengthForJobs());
+                PrintTable(FileStringsAsListForJobs(job).ToArray(),
+                    GetMaxStringLengthForJobs());
             selectedJobOfferId = SelectJobOffer();
 
             if (!'z'.Equals(selectedJobOfferId.KeyChar))
-                jobBLogic.acceptJob(activeCompany, selectedJobOfferId.KeyChar.ToString(), jobOffers);
+                acceptJob(activeCompany, selectedJobOfferId.KeyChar.ToString(), jobOffers);
         }
 
         private ConsoleKeyInfo SelectJobOffer()
