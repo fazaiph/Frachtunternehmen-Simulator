@@ -10,7 +10,7 @@ namespace BusinessLogicTester
         public void AddTruckToOwnedTrucks_AddingATruckToCompany_ShouldEqualTo1()
         {
             var testCompany = new Company("test");
-            var testTruck = new Trucks(1);
+            var testTruck = new Truck(1);
 
             testCompany.AddTruckToOwnedTrucks(testTruck);
 
@@ -31,7 +31,7 @@ namespace BusinessLogicTester
         public void AddDriverToEmployedDriversList_AddingADriverToTheCompany_ListLengthOfEmployedDriversShouldBe1()
         {
             var testCompany = new Company("test");
-            var driverToBeAdded = new Drivers(0, "Max", "Mustermann");
+            var driverToBeAdded = new Driver(0, "Max", "Mustermann");
 
             testCompany.AddDriverToEmployedDriversList(driverToBeAdded);
 

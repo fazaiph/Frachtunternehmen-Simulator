@@ -2,7 +2,7 @@
 
 namespace Zusammenbauen
 {
-    public class Drivers
+    public class Driver
     {
         private readonly string[] availableTypes =
         {
@@ -21,7 +21,7 @@ namespace Zusammenbauen
         private readonly int wishedForSalary;
         private int driversIndex;
 
-        public Drivers(int driversIndexFromOutside, string forename, string surname)
+        public Driver(int driversIndexFromOutside, string forename, string surname)
         {
             driversIndex = driversIndexFromOutside;
             fullName = forename + " " + surname;

@@ -12,13 +12,14 @@ namespace Zusammenbauen
         private static JobOfferMarket jobOfferMarket;
         private static DriversMarket driversMarket;
         private static TruckMarket truckMarket;
+        private static readonly Businesslogic BL = new Businesslogic();
 
         private static void Main(string[] args)
         {
             myUI.NameSelectionScreen();
             companyName = Console.ReadLine();
             CreateGame();
-            while (true) //für's erste ne Dauerschleife, da noch nicht gefordert, das Spiel verlassen zu können
+            while (true) //fürs erste ne Dauerschleife, da noch nicht gefordert, das Spiel verlassen zu können
             {
                 MainMenu(activeCompany);
 
@@ -37,6 +38,18 @@ namespace Zusammenbauen
                         break;
 
                     case '4':
+                        activeCompany.startAssignDriverToTruckRoutine(activeCompany);
+                        break;
+
+                    case '5':
+
+                        break;
+
+                    case '6':
+
+                        break;
+
+                    case '7':
                         EndRound();
                         break;
 

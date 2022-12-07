@@ -1,15 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using static Zusammenbauen.TruckMarket;
+using static Zusammenbauen.DriversMarket;
+using static Zusammenbauen.Businesslogic;
 
 namespace Zusammenbauen
 {
     public class Company
     {
+        private static readonly UI myUI = new UI();
+        private static readonly UIpreparator Uiprep = new UIpreparator();
         private readonly string companyName;
-        private readonly List<Drivers> employedDrivers = new List<Drivers>();
-        private readonly List<Trucks> ownedTrucks = new List<Trucks>();
+        private readonly List<Driver> employedDrivers = new List<Driver>();
         private readonly List<Job> pendingJobs = new List<Job>();
         private long companyCash;
+        private List<Truck> driverlessOwnedTrucks = new List<Truck>();
         private int numberOfEmployees, numberOfOwnedTrucks, numberOfPendingJobs;
+
+        private readonly List<Truck> ownedTrucksWithDrivers = new List<Truck>();
+        //private static readonly TruckMarket TM = new TruckMarket();
 
         public Company(string chosenName)
         {
@@ -25,14 +34,14 @@ namespace Zusammenbauen
             return pendingJobs;
         }
 
-        public List<Drivers> GetListOfEmployedDrivers()
+        public List<Driver> GetListOfEmployedDrivers()
         {
             return employedDrivers;
         }
 
-        public List<Trucks> GetListOfOwnedTrucks()
+        public List<Truck> GetListOfDriverlessOwnedTrucks()
         {
-            return ownedTrucks;
+            return driverlessOwnedTrucks;
         }
 
         public int GetNumberOfEmployees()
@@ -63,7 +72,7 @@ namespace Zusammenbauen
         public void UpdateCompanyNumbers()
         {
             numberOfEmployees = employedDrivers.Count;
-            numberOfOwnedTrucks = ownedTrucks.Count;
+            numberOfOwnedTrucks = driverlessOwnedTrucks.Count + ownedTrucksWithDrivers.Count;
             numberOfPendingJobs = pendingJobs.Count;
         }
 
@@ -72,13 +81,13 @@ namespace Zusammenbauen
             companyCash = newCash;
         }
 
-        public void AddTruckToOwnedTrucks(Trucks truckToAdd)
+        public void AddTruckToOwnedTrucks(Truck truckToAdd)
         {
-            ownedTrucks.Add(truckToAdd);
+            driverlessOwnedTrucks.Add(truckToAdd);
             numberOfOwnedTrucks++;
         }
 
-        public void AddDriverToEmployedDriversList(Drivers freshlyEmployedDriver)
+        public void AddDriverToEmployedDriversList(Driver freshlyEmployedDriver)
         {
             employedDrivers.Add(freshlyEmployedDriver);
             numberOfEmployees++;
@@ -88,6 +97,32 @@ namespace Zusammenbauen
         {
             pendingJobs.Add(jobOffer);
             numberOfPendingJobs++;
+        }
+
+        public void startAssignDriverToTruckRoutine(Company activeCompany)
+        {
+            ConsoleKeyInfo selectedTruckId, selectedDriverId;
+            int selectedTruckIdAsInt, selectedDriverIdAsInt;
+            myUI.PrintListOfTrucks(driverlessOwnedTrucks);
+            selectedTruckId = SelectATruck(driverlessOwnedTrucks);
+            if (!'z'.Equals(selectedTruckId.KeyChar))
+                selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId.KeyChar.ToString());
+            else
+                return;
+            myUI.PrintListOfDrivers(employedDrivers);
+            selectedDriverId = SelectDriver(employedDrivers);
+            if (!'z'.Equals(selectedDriverId.KeyChar))
+                selectedDriverIdAsInt = Convert.ToInt32(selectedDriverId.KeyChar.ToString());
+            else
+                return;
+            AssignDriverToTruck(driverlessOwnedTrucks[selectedTruckIdAsInt - 1],
+                employedDrivers[selectedDriverIdAsInt - 1]);
+            TransferTruckToAssignedTrucksList(driverlessOwnedTrucks, selectedTruckIdAsInt - 1, ownedTrucksWithDrivers);
+        }
+
+        public void SetDriverlessOwnedTrucks(List<Truck> listWithUpdateTruckIds)
+        {
+            driverlessOwnedTrucks = listWithUpdateTruckIds;
         }
     }
 }

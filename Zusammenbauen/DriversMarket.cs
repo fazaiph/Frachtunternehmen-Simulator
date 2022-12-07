@@ -5,10 +5,11 @@ namespace Zusammenbauen
 {
     public class DriversMarket
     {
-        private static readonly List<Drivers> jobSeekingDrivers = new List<Drivers>();
+        private static readonly List<Driver> jobSeekingDrivers = new List<Driver>();
         private static readonly NameFileHandler nameHandling = new NameFileHandler();
         private static readonly UI myUI = new UI();
         private static readonly UIpreparator Uiprep = new UIpreparator();
+        private static readonly Businesslogic driverBlogic = new Businesslogic();
         private static ConsoleKeyInfo selection;
         private Company activeCompany;
 
@@ -24,30 +25,34 @@ namespace Zusammenbauen
             {
                 var driversIndex = i;
                 driversIndex++;
-                jobSeekingDrivers.Add(new Drivers(driversIndex, nameHandling.GetRandomForename(),
+                jobSeekingDrivers.Add(new Driver(driversIndex, nameHandling.GetRandomForename(),
                     nameHandling.GetRandomSurname()));
             }
         }
 
         public void OpenDriversMarket(Company activeCompany)
         {
-            var selectionIsValid = true;
-            foreach (var driver in jobSeekingDrivers) Uiprep.CalcMaxStringLengthForDrivers(driver);
+            Console.Clear();
+            ConsoleKeyInfo selectedDriverId;
+            myUI.PrintListOfDrivers(jobSeekingDrivers);
+            selectedDriverId = SelectDriver(jobSeekingDrivers);
+            if (!'z'.Equals(selectedDriverId.KeyChar))
+                driverBlogic.employDriver(activeCompany, selectedDriverId.KeyChar.ToString(), jobSeekingDrivers);
+        }
 
-            myUI.PrintTableHeaders(Uiprep.GetHeaderStringsForDrivers(), Uiprep.GetMaxStringLengthForDrivers());
-
-            foreach (var driver in jobSeekingDrivers)
-                myUI.PrintTable(Uiprep.FileStringsAsListForDrivers(driver).ToArray(),
-                    Uiprep.GetMaxStringLengthForDrivers());
+        public static ConsoleKeyInfo SelectDriver(List<Driver> listOfDrivers)
+        {
+            ConsoleKeyInfo selection;
+            bool selectionIsValid;
             do
             {
                 Console.WriteLine("Wählen Sie einen Fahrer mit 1-{0} oder kehren Sie zurück mit z",
-                    jobSeekingDrivers.Count);
+                    listOfDrivers.Count);
                 selectionIsValid = true;
                 selection = Console.ReadKey(true);
-                var test = Convert.ToChar(jobSeekingDrivers.Count.ToString());
+                var test = Convert.ToChar(listOfDrivers.Count.ToString());
                 if ((selection.KeyChar < '1' ||
-                     selection.KeyChar > Convert.ToChar(jobSeekingDrivers.Count.ToString())) &&
+                     selection.KeyChar > Convert.ToChar(listOfDrivers.Count.ToString())) &&
                     !'z'.Equals(selection.KeyChar))
                 {
                     selectionIsValid = false;
@@ -56,29 +61,11 @@ namespace Zusammenbauen
                 }
             } while (!selectionIsValid);
 
-            if (!'z'.Equals(selection.KeyChar)) employDriver(activeCompany, selection.KeyChar.ToString());
+            return selection;
         }
 
-        private void employDriver(Company activeCompany, string selectedDriverId)
-        {
-            var selectedDriverIdAsInt = Convert.ToInt32(selectedDriverId) - 1;
-            activeCompany.AddDriverToEmployedDriversList(jobSeekingDrivers[selectedDriverIdAsInt]);
-            RemoveDriverFromMarket(selectedDriverIdAsInt);
-        }
 
-        public void RemoveDriverFromMarket(int selectedDriverId)
-        {
-            jobSeekingDrivers.RemoveAt(selectedDriverId);
-            UpdateJobSeekingDriversIds();
-        }
-
-        private static void UpdateJobSeekingDriversIds()
-        {
-            var newID = 1;
-            foreach (var driver in jobSeekingDrivers) driver.SetID(newID++);
-        }
-
-        public List<Drivers> GetListOfJobSeekingDrivers()
+        public List<Driver> GetListOfJobSeekingDrivers()
         {
             return jobSeekingDrivers;
         }

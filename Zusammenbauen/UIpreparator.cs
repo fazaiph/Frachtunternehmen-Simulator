@@ -19,7 +19,12 @@ namespace Zusammenbauen
         private readonly string[] headerStringsForJob =
             { " # ", " Ware", " Typ", " Startort", " Zielort", " Gewicht", " Lieferdatum", " Vergütung", " Strafe" };
 
-        public List<int> FileStringLengthListForTrucks(Trucks truck)
+        public void SetMaxStringLengthForTrucks(int[] newArray)
+        {
+            maxStringLengthForTrucks = newArray;
+        }
+
+        public List<int> FileStringLengthListForTrucks(Truck truck)
         {
             var stringLengthPerColumn = new List<int>();
             stringLengthPerColumn.Add(truck.GetTruckIndex().ToString().Length + 2);
@@ -34,7 +39,7 @@ namespace Zusammenbauen
         }
 
 
-        public List<string> FileStringsAsListForTrucks(Trucks truck)
+        public List<string> FileStringsAsListForTrucks(Truck truck)
         {
             var printingList = new List<string>();
             printingList.Add(truck.GetTruckIndex().ToString());
@@ -49,7 +54,7 @@ namespace Zusammenbauen
             return printingList;
         }
 
-        private List<int> FileStringLengthListForDrivers(Drivers driver)
+        private List<int> FileStringLengthListForDrivers(Driver driver)
         {
             var stringLengthPerColumn = new List<int>();
             stringLengthPerColumn.Add(driver.GetDriversIndex().ToString().Length + 2);
@@ -59,7 +64,7 @@ namespace Zusammenbauen
             return stringLengthPerColumn;
         }
 
-        public List<string> FileStringsAsListForDrivers(Drivers driver)
+        public List<string> FileStringsAsListForDrivers(Driver driver)
         {
             var printingList = new List<string>();
             printingList.Add(driver.GetDriversIndex().ToString());
@@ -100,13 +105,13 @@ namespace Zusammenbauen
             return printingList;
         }
 
-        public void CalcMaxStringLengthForTrucks(Trucks truck)
+        public void CalcMaxStringLengthForTrucks(Truck truck)
         {
             maxStringLengthForTrucks = CalcMaxStringLengthPerColumn(maxStringLengthForTrucks,
                 FileStringLengthListForTrucks(truck).ToArray(), maxStringLengthForTrucks.Length);
         }
 
-        public void CalcMaxStringLengthForDrivers(Drivers driver)
+        public void CalcMaxStringLengthForDrivers(Driver driver)
         {
             maxStringLengthForDrivers = CalcMaxStringLengthPerColumn(maxStringLengthForDrivers,
                 FileStringLengthListForDrivers(driver).ToArray(),
@@ -158,6 +163,21 @@ namespace Zusammenbauen
         public int[] GetMaxStringLengthForJobs()
         {
             return maxStringLengthForJobs;
+        }
+
+        public List<Truck> PickDriverlessTrucks(List<Truck> ListOfOwnedTrucks)
+        {
+            var listOfDriverlessTrucks = new List<Truck>();
+            foreach (var truck in ListOfOwnedTrucks)
+                if (truck.isDriverless)
+                    listOfDriverlessTrucks.Add(truck);
+
+            return listOfDriverlessTrucks;
+        }
+
+        public void SetMaxStringLengthForDrivers(int[] initialMaxStringLengthForDrivers)
+        {
+            maxStringLengthForDrivers = initialMaxStringLengthForDrivers;
         }
     }
 }

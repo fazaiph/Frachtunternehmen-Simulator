@@ -10,6 +10,7 @@ namespace Zusammenbauen
         private static readonly UI myUI = new UI();
         private static ConsoleKeyInfo selection;
         private static readonly UIpreparator Uiprep = new UIpreparator();
+        private static readonly Businesslogic jobBLogic = new Businesslogic();
         private Company activeCompany;
 
         public JobOfferMarket()
@@ -29,7 +30,7 @@ namespace Zusammenbauen
 
         public void OpenJobOfferMarket(Company activeCompany)
         {
-            var selectionIsValid = true;
+            ConsoleKeyInfo selectedJobOfferId;
             foreach (var job in jobOffers) Uiprep.CalcMaxStringLengthForJobs(job);
 
             myUI.PrintTableHeaders(Uiprep.GetHeaderStringsForJobs(), Uiprep.GetMaxStringLengthForJobs());
@@ -37,6 +38,16 @@ namespace Zusammenbauen
             foreach (var job in jobOffers)
                 myUI.PrintTable(Uiprep.FileStringsAsListForJobs(job).ToArray(),
                     Uiprep.GetMaxStringLengthForJobs());
+            selectedJobOfferId = SelectJobOffer();
+
+            if (!'z'.Equals(selectedJobOfferId.KeyChar))
+                jobBLogic.acceptJob(activeCompany, selectedJobOfferId.KeyChar.ToString(), jobOffers);
+        }
+
+        private ConsoleKeyInfo SelectJobOffer()
+        {
+            ConsoleKeyInfo selection;
+            bool selectionIsValid;
             do
             {
                 Console.WriteLine("Nehmen Sie mit 1-{0} einen Auftrag an oder kehren Sie zurück mit z",
@@ -54,27 +65,9 @@ namespace Zusammenbauen
                 }
             } while (!selectionIsValid);
 
-            if (!'z'.Equals(selection.KeyChar)) acceptJob(activeCompany, selection.KeyChar.ToString());
+            return selection;
         }
 
-        private void acceptJob(Company activeCompany, string selectedJobId)
-        {
-            var selectedJobIdAsInt = Convert.ToInt32(selectedJobId) - 1;
-            activeCompany.AddJobToPendingJobsList(jobOffers[selectedJobIdAsInt]);
-            RemoveJobFromJobOfferMarket(selectedJobIdAsInt);
-        }
-
-        public void RemoveJobFromJobOfferMarket(int selectedDriverId)
-        {
-            jobOffers.RemoveAt(selectedDriverId);
-            UpdateJobOfferIds();
-        }
-
-        private static void UpdateJobOfferIds()
-        {
-            var newID = 1;
-            foreach (var job in jobOffers) job.SetID(newID++);
-        }
 
         public List<Job> GetListOfJobOffers()
         {

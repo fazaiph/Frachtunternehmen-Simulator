@@ -2,7 +2,7 @@
 
 namespace Zusammenbauen
 {
-    public class Trucks
+    public class Truck
     {
         private static readonly Random rndNum = new Random();
 
@@ -16,10 +16,12 @@ namespace Zusammenbauen
         private readonly int power, maxLoad, fuelConsumption, price;
         private readonly Mapper truckMapper = new Mapper();
         private readonly string[] truckSizes = { "Klein", "Medium", "Groß", "Riesig" };
+        private Driver assginedDriver;
+        public bool isDriverless;
         private double priceFactor;
         private int trucksIndex;
 
-        public Trucks(int trucksIndexFromOutside)
+        public Truck(int trucksIndexFromOutside)
         {
             trucksIndex = trucksIndexFromOutside;
             type = availableTypes[rndNum.Next(3)];
@@ -30,6 +32,22 @@ namespace Zusammenbauen
             maxLoad = Mapper.MapMaxLoad(size, type);
             fuelConsumption = CalcFuelConsumption();
             price = (int)CalcPrice();
+            isDriverless = true;
+        }
+
+        public void SetIsDriverless(bool state)
+        {
+            isDriverless = state;
+        }
+
+        public Driver GetAssignedDriver()
+        {
+            return assginedDriver;
+        }
+
+        public void SetAssignedDriver(Driver freshlyAssignedDriver)
+        {
+            assginedDriver = freshlyAssignedDriver;
         }
 
         public int GetTruckIndex()
