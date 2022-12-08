@@ -6,19 +6,19 @@ namespace Zusammenbauen
     {
         private readonly Random rndNum = new Random();
 
-        public static Truck.truckType MapGoodsTypeToTruckType(string goodsType)
+        public static Truck.truckType MapGoodsTypeToTruckType(Job.goodsTypes goodsType)
         {
             return goodsType switch
             {
-                "Zigaretten" => Truck.truckType.Pritschenwagen,
-                "Textilien" => Truck.truckType.Pritschenwagen,
-                "Schokolade" => Truck.truckType.Pritschenwagen,
-                "Früchte" => Truck.truckType.Kühllastwagen,
-                "Eiscreme" => Truck.truckType.Kühllastwagen,
-                "Fleisch" => Truck.truckType.Kühllastwagen,
-                "Rohöl" => Truck.truckType.Tanklaster,
-                "Heizöl" => Truck.truckType.Tanklaster,
-                "Benzin" => Truck.truckType.Tanklaster,
+                Job.goodsTypes.Zigaretten => Truck.truckType.Pritschenwagen,
+                Job.goodsTypes.Textilien => Truck.truckType.Pritschenwagen,
+                Job.goodsTypes.Schokolade => Truck.truckType.Pritschenwagen,
+                Job.goodsTypes.Früchte => Truck.truckType.Kühllastwagen,
+                Job.goodsTypes.Eiscreme => Truck.truckType.Kühllastwagen,
+                Job.goodsTypes.Fleisch => Truck.truckType.Kühllastwagen,
+                Job.goodsTypes.Rohöl => Truck.truckType.Tanklaster,
+                Job.goodsTypes.Heizöl => Truck.truckType.Tanklaster,
+                Job.goodsTypes.Benzin => Truck.truckType.Tanklaster,
                 _ => Truck.truckType.Pritschenwagen
             };
         }
@@ -59,36 +59,36 @@ namespace Zusammenbauen
             };
         }
 
-        public static int MapMaxDays(string goodsType)
+        public static int MapMaxDays(Job.goodsTypes goodsType)
         {
             return goodsType switch
             {
-                "Zigaretten" => 20,
-                "Textilien" => 20,
-                "Schokolade" => 10,
-                "Früchte" => 14,
-                "Eiscreme" => 10,
-                "Fleisch" => 14,
-                "Rohöl" => 14,
-                "Heizöl" => 25,
-                "Benzin" => 28,
+                Job.goodsTypes.Zigaretten => 20,
+                Job.goodsTypes.Textilien => 20,
+                Job.goodsTypes.Schokolade => 10,
+                Job.goodsTypes.Früchte => 14,
+                Job.goodsTypes.Eiscreme => 10,
+                Job.goodsTypes.Fleisch => 14,
+                Job.goodsTypes.Rohöl => 14,
+                Job.goodsTypes.Heizöl => 25,
+                Job.goodsTypes.Benzin => 28,
                 _ => 0
             };
         }
 
-        public int MapMinPricePerTon(string goodsType)
+        public int MapMinPricePerTon(Job.goodsTypes goodsType)
         {
             return goodsType switch
             {
-                "Zigaretten" => 100,
-                "Textilien" => 50,
-                "Schokolade" => 120,
-                "Früchte" => 150,
-                "Eiscreme" => 180,
-                "Fleisch" => 130,
-                "Rohöl" => 120,
-                "Heizöl" => 90,
-                "Benzin" => 80,
+                Job.goodsTypes.Zigaretten => 100,
+                Job.goodsTypes.Textilien => 50,
+                Job.goodsTypes.Schokolade => 120,
+                Job.goodsTypes.Früchte => 150,
+                Job.goodsTypes.Eiscreme => 180,
+                Job.goodsTypes.Fleisch => 130,
+                Job.goodsTypes.Rohöl => 120,
+                Job.goodsTypes.Heizöl => 90,
+                Job.goodsTypes.Benzin => 80,
                 _ => 0
             };
         }

@@ -17,7 +17,6 @@ namespace Zusammenbauen
         private List<Truck> driverlessOwnedTrucks = new List<Truck>();
 
         private int numberOfEmployees, numberOfOwnedTrucks, numberOfPendingJobs;
-        //private static readonly TruckMarket TM = new TruckMarket();
 
         public Company(string chosenName)
         {

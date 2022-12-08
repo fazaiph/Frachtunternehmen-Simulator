@@ -77,7 +77,7 @@ namespace Zusammenbauen
         {
             var stringLengthPerColumn = new List<int>();
             stringLengthPerColumn.Add(job.GetJobIndex().ToString().Length + 2);
-            stringLengthPerColumn.Add(job.GetGoodsType().Length + 2);
+            stringLengthPerColumn.Add(job.GetGoodsType().ToString().Length + 2);
             stringLengthPerColumn.Add(job.GetRequiredTruckType().ToString().Length + 2);
             stringLengthPerColumn.Add(job.GetOriginCity().ToString().Length + 2);
             stringLengthPerColumn.Add(job.GetDestinationCity().ToString().Length + 2);
@@ -85,7 +85,7 @@ namespace Zusammenbauen
             stringLengthPerColumn.Add(job.GetDeliveryDateAsString().Length + 2);
             stringLengthPerColumn.Add(job.GetPayment().ToString().Length + 4);
             stringLengthPerColumn.Add(job.GetFine().ToString().Length + 5);
-            stringLengthPerColumn.Add(job.GetStatus().ToString().Length + 5);
+            stringLengthPerColumn.Add(job.GetStatus().ToString().Length + 2);
             return stringLengthPerColumn;
         }
 
@@ -93,7 +93,7 @@ namespace Zusammenbauen
         {
             var printingList = new List<string>();
             printingList.Add(job.GetJobIndex().ToString());
-            printingList.Add(job.GetGoodsType());
+            printingList.Add(job.GetGoodsType().ToString());
             printingList.Add(job.GetRequiredTruckType().ToString());
             printingList.Add(job.GetOriginCity().ToString());
             printingList.Add(job.GetDestinationCity().ToString());

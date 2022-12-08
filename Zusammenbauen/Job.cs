@@ -4,6 +4,19 @@ namespace Zusammenbauen
 {
     public class Job
     {
+        public enum goodsTypes
+        {
+            Zigaretten = 0,
+            Textilien = 1,
+            Schokolade = 2,
+            Früchte = 3,
+            Eiscreme = 4,
+            Fleisch = 5,
+            Rohöl = 6,
+            Heizöl = 7,
+            Benzin = 8
+        }
+
         public enum Location
         {
             Unterwegs = 0,
@@ -24,13 +37,10 @@ namespace Zusammenbauen
             Bearbeitung = 2
         }
 
-        private readonly string[] availableGoods =
-            { "Zigaretten", "Textilien", "Schokolade", "Früchte", "Eiscreme", "Fleisch", "Rohöl", "Heizöl", "Benzin" };
-
         private readonly double bonusFactor, payment, fine;
         private readonly DateTime deliveryDate;
         private readonly int deliveryDays, maxDays;
-        private readonly string goodsType;
+        private readonly goodsTypes goodsType;
         private readonly Mapper mapper = new Mapper();
         private readonly Location originCity, destinationCity;
         private readonly Truck.truckType requiredTruckType;
@@ -42,7 +52,7 @@ namespace Zusammenbauen
         public Job(int jobIndexFromOutside)
         {
             jobIndex = jobIndexFromOutside;
-            goodsType = availableGoods[rndNum.Next(9)];
+            goodsType = (goodsTypes)rndNum.Next(9);
             requiredTruckType = Mapper.MapGoodsTypeToTruckType(goodsType);
             totalWeight = rndNum.Next(1, Mapper.MapMaxLoad(Truck.truckSize.Riesig, requiredTruckType));
             originCity = (Location)rndNum.Next(1, 9);
@@ -72,7 +82,7 @@ namespace Zusammenbauen
             return jobIndex;
         }
 
-        public string GetGoodsType()
+        public goodsTypes GetGoodsType()
         {
             return goodsType;
         }
