@@ -4,7 +4,7 @@ namespace Zusammenbauen
 {
     public class Truck
     {
-        public enum location
+        public enum Location
         {
             Unterwegs = 0,
             Amsterdam = 1,
@@ -39,7 +39,7 @@ namespace Zusammenbauen
         private readonly truckSize size;
         private readonly Mapper truckMapper = new Mapper();
         private Driver assginedDriver;
-        private location currentLocation;
+        private Location currentLocation;
         public bool isDriverless;
         private double priceFactor;
         private int trucksIndex;
@@ -50,7 +50,7 @@ namespace Zusammenbauen
             trucksIndex = trucksIndexFromOutside;
             type = (truckType)rndNum.Next(3);
             age = rndNum.Next(11);
-            currentLocation = (location)rndNum.Next(1, 9);
+            currentLocation = (Location)rndNum.Next(1, 9);
             size = (truckSize)rndNum.Next(4);
             power = truckMapper.MapTruckPower(size);
             maxLoad = Mapper.MapMaxLoad(size, type);
@@ -89,7 +89,7 @@ namespace Zusammenbauen
             return age;
         }
 
-        public location GetCurrentLocation()
+        public Location GetCurrentLocation()
         {
             return currentLocation;
         }
@@ -149,7 +149,7 @@ namespace Zusammenbauen
             trucksIndex = newID;
         }
 
-        public void SetCurrentLocation(location newLocation)
+        public void SetCurrentLocation(Location newLocation)
         {
             currentLocation = newLocation;
         }

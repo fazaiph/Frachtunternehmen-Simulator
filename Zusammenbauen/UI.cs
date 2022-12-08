@@ -91,11 +91,26 @@ namespace Zusammenbauen
             SetMaxStringLengthForDrivers(initialMaxStringLengthForDrivers);
         }
 
+        public static void PrintListOfJobs(List<Job> acceptedJobs)
+        {
+            int[] initialMaxStringLengthForJob = { 3, 6, 5, 10, 9, 9, 13, 11, 8 , 8};
+            Console.Clear();
+            foreach (var job in acceptedJobs) CalcMaxStringLengthForJobs(job);
+
+            PrintTableHeaders(GetHeaderStringsForJobs(), GetMaxStringLengthForJobs());
+
+            foreach (var job in acceptedJobs)
+                PrintTable(FileStringsAsListForJobs(job).ToArray(),
+                    GetMaxStringLengthForJobs());
+
+            SetMaxStringLengthForJobs(initialMaxStringLengthForJob);
+        }
+
         public static void PrintDestinationSelectionPage()
         {
             var index = 0;
             Console.Clear();
-            foreach (var destination in Enum.GetNames(typeof(Truck.location)))
+            foreach (var destination in Enum.GetNames(typeof(Truck.Location)))
                 if (!(destination == "Unterwegs"))
                     Console.WriteLine("{0}   {1}", ++index, destination);
                 else

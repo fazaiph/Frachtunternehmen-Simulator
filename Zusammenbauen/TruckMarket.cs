@@ -8,7 +8,6 @@ namespace Zusammenbauen
     public class TruckMarket
     {
         private static readonly List<Truck> trucksOnTheMarket = new List<Truck>();
-        private int[] initialMaxStringLengthForTrucks = { 3, 5, 7, 10, 10, 11, 7, 5 };
 
         public TruckMarket()
         {

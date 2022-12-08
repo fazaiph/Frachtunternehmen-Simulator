@@ -45,6 +45,11 @@ namespace Zusammenbauen
             UpdateTruckIds(listOfTrucksWithDrivers);
         }
 
+        public static void ChangeTruckLocation(Truck truck, Truck.Location newLocation)
+        {
+            truck.SetCurrentLocation(newLocation);
+        }
+
         //********************************************************************************************************************
         //Driver related Business Logic
         public static void employDriver(Company activeCompany, string selectedDriverId, List<Driver> jobSeekingDrivers)
@@ -74,24 +79,26 @@ namespace Zusammenbauen
         {
             var selectedJobIdAsInt = Convert.ToInt32(selectedJobId) - 1;
             activeCompany.AddJobToPendingJobsList(jobOffers[selectedJobIdAsInt]);
-            RemoveJobFromJobOfferMarket(selectedJobIdAsInt, jobOffers);
+            RemoveJobFromList(selectedJobIdAsInt, jobOffers);
+            UpdateJobIds(activeCompany.GetListOfPendingJobs());
         }
 
-        public static void RemoveJobFromJobOfferMarket(int selectedDriverId, List<Job> jobOffers)
+        public static void RemoveJobFromList(int selectedDriverId, List<Job> jobList)
         {
-            jobOffers.RemoveAt(selectedDriverId);
-            UpdateJobOfferIds(jobOffers);
+            jobList.RemoveAt(selectedDriverId);
+            UpdateJobIds(jobList);
         }
 
-        private static void UpdateJobOfferIds(List<Job> jobOffers)
+        private static void UpdateJobIds(List<Job> jobList)
         {
             var newID = 1;
-            foreach (var job in jobOffers) job.SetID(newID++);
+            foreach (var job in jobList) job.SetID(newID++);
         }
 
-        public static void ChangeTruckLocation(Truck truck, Truck.location newLocation)
+        public static void DispatchTruckForJob(Truck truck, Job job)
         {
-            truck.SetCurrentLocation(newLocation);
+            job.SetStatusOfJob((Job.Status)2);
+            ChangeTruckLocation(truck, 0);
         }
     }
 }

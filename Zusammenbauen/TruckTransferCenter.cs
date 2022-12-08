@@ -18,7 +18,7 @@ namespace Zusammenbauen
             else
                 return;
             if (activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1].GetCurrentLocation() ==
-                Truck.location.Unterwegs)
+                Truck.Location.Unterwegs)
             {
                 Console.WriteLine("Dieser LKW ist momentan unterwegs und kann nicht bewegt werden!");
                 Console.WriteLine("Beliebige Taste drücken um zum Menü zurückzukehren");

@@ -31,26 +31,19 @@ namespace Zusammenbauen
         public void OpenJobOfferMarket(Company activeCompany)
         {
             ConsoleKeyInfo selectedJobOfferId;
-            foreach (var job in jobOffers) CalcMaxStringLengthForJobs(job);
-
-            PrintTableHeaders(GetHeaderStringsForJobs(), GetMaxStringLengthForJobs());
-
-            foreach (var job in jobOffers)
-                PrintTable(FileStringsAsListForJobs(job).ToArray(),
-                    GetMaxStringLengthForJobs());
-            selectedJobOfferId = SelectJobOffer();
-
+            PrintListOfJobs(jobOffers);
+            selectedJobOfferId = SelectJob();
             if (!'z'.Equals(selectedJobOfferId.KeyChar))
                 acceptJob(activeCompany, selectedJobOfferId.KeyChar.ToString(), jobOffers);
         }
 
-        private ConsoleKeyInfo SelectJobOffer()
+        public static ConsoleKeyInfo SelectJob()
         {
             ConsoleKeyInfo selection;
             bool selectionIsValid;
             do
             {
-                Console.WriteLine("Nehmen Sie mit 1-{0} einen Auftrag an oder kehren Sie zurück mit z",
+                Console.WriteLine("Wählen Sie mit 1-{0} einen Auftrag aus oder kehren Sie zurück mit z",
                     jobOffers.Count);
                 selectionIsValid = true;
                 selection = Console.ReadKey(true);

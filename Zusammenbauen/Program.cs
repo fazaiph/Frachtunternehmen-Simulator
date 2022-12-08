@@ -1,6 +1,7 @@
 ﻿using System;
 using static Zusammenbauen.TruckTransferCenter;
 using static Zusammenbauen.UI;
+using static Zusammenbauen.JobDispatcher;
 
 namespace Zusammenbauen
 {
@@ -47,7 +48,7 @@ namespace Zusammenbauen
                         break;
 
                     case '6':
-                        //DispatchJob();
+                        DispatchJob(activeCompany);
                         break;
 
                     case '7':
