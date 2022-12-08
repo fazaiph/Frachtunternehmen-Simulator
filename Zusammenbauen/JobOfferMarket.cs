@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using static Zusammenbauen.Businesslogic;
-using static Zusammenbauen.UIpreparator;
 using static Zusammenbauen.UI;
 
 namespace Zusammenbauen

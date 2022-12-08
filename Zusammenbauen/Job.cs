@@ -16,6 +16,14 @@ namespace Zusammenbauen
             Aarhus = 7,
             Tallin = 8
         }
+
+        public enum Status
+        {
+            offen = 0,
+            angenommen = 1,
+            Bearbeitung = 2
+        }
+
         private readonly string[] availableGoods =
             { "Zigaretten", "Textilien", "Schokolade", "Früchte", "Eiscreme", "Fleisch", "Rohöl", "Heizöl", "Benzin" };
 
@@ -23,19 +31,13 @@ namespace Zusammenbauen
         private readonly DateTime deliveryDate;
         private readonly int deliveryDays, maxDays;
         private readonly string goodsType;
-        private readonly Location originCity, destinationCity;
         private readonly Mapper mapper = new Mapper();
+        private readonly Location originCity, destinationCity;
         private readonly Truck.truckType requiredTruckType;
         private readonly Random rndNum = new Random();
         private readonly int totalWeight;
         private int jobIndex;
         private Status status;
-        public enum Status
-        {
-            open = 0,
-            accepted = 1,
-            proceeding = 2
-        }
 
         public Job(int jobIndexFromOutside)
         {
@@ -52,13 +54,14 @@ namespace Zusammenbauen
                 rndNum.NextDouble();
             payment = mapper.MapMinPricePerTon(goodsType) * totalWeight * bonusFactor;
             fine = rndNum.Next(50, 201) * payment / 100;
-            status = Status.open;
+            status = Status.offen;
         }
 
         public Status GetStatus()
         {
             return status;
         }
+
         public string GetDeliveryDateAsString()
         {
             return deliveryDate.ToString("dd.MM.yyyy");

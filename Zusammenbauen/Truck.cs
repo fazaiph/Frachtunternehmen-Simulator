@@ -38,12 +38,12 @@ namespace Zusammenbauen
         private readonly int power, maxLoad, fuelConsumption, price;
         private readonly truckSize size;
         private readonly Mapper truckMapper = new Mapper();
+        private readonly truckType type;
         private Driver assginedDriver;
         private Location currentLocation;
         public bool isDriverless;
         private double priceFactor;
         private int trucksIndex;
-        private readonly truckType type;
 
         public Truck(int trucksIndexFromOutside)
         {

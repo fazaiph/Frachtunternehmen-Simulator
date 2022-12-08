@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using static Zusammenbauen.UI;
 using static Zusammenbauen.JobOfferMarket;
 using static Zusammenbauen.TruckMarket;
@@ -8,7 +6,7 @@ using static Zusammenbauen.Businesslogic;
 
 namespace Zusammenbauen
 {
-    class
+    internal class
         JobDispatcher
     {
         public static void DispatchJob(Company activeCompany)
@@ -37,11 +35,19 @@ namespace Zusammenbauen
                 return;
             }
 
-            truckIsSuitedForJob = ValidateIfTruckIsSuitedForJob(activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1],
+            truckIsSuitedForJob = ValidateIfTruckIsSuitedForJob(
+                activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1],
                 activeCompany.GetListOfPendingJobs()[selectedJobIdAsInt - 1]);
             if (truckIsSuitedForJob)
             {
-                DispatchTruckForJob(activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt-1],activeCompany.GetListOfPendingJobs()[selectedJobIdAsInt - 1]);
+                DispatchTruckForJob(activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1],
+                    activeCompany.GetListOfPendingJobs()[selectedJobIdAsInt - 1]);
+            }
+            else
+            {
+                Console.WriteLine("Der LKW erfüllt nicht dei entsprechenden Anfordeungen für den Auftrag");
+                Console.WriteLine("Drücken Sie eine beliebige Taste zum fortfahren");
+                Console.ReadKey();
             }
         }
 
@@ -52,8 +58,8 @@ namespace Zusammenbauen
                 truckType = selectedTruck.GetTruckType().ToString(),
                 requiredTruckTypeForJob = selectedJob.GetRequiredTruckType().ToString();
             int truckCapacity = selectedTruck.GetMaxLoad(), freightWeight = selectedJob.GetTotalWeight();
-            return ((truckLocation == jobOrigin) && (truckCapacity >= freightWeight) &&
-                    (truckType == requiredTruckTypeForJob));
+            return truckLocation == jobOrigin && truckCapacity >= freightWeight &&
+                   truckType == requiredTruckTypeForJob;
         }
     }
 }

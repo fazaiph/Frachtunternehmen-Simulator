@@ -8,7 +8,7 @@ namespace Zusammenbauen
 
         private static int[] maxStringLengthForDrivers = { 3, 8, 8, 5 };
 
-        private static int[] maxStringLengthForJobs = { 3, 6, 5, 10, 9, 9, 13, 11, 8, 8};
+        private static int[] maxStringLengthForJobs = { 3, 6, 5, 10, 9, 9, 13, 11, 8, 8 };
 
         private static readonly string[] headerStringsForTrucks =
             { " #", " Typ", " Alter", " Leistung", " Zuladung", " Verbrauch", " Preis", " Ort" };
@@ -17,7 +17,10 @@ namespace Zusammenbauen
             { " # ", " Fahrer", " Gehalt", " Typ" };
 
         private static readonly string[] headerStringsForJob =
-            { " # ", " Ware", " Typ", " Startort", " Zielort", " Gewicht", " Lieferdatum", " Vergütung", " Strafe", " Status"};
+        {
+            " # ", " Ware", " Typ", " Startort", " Zielort", " Gewicht", " Lieferdatum", " Vergütung", " Strafe",
+            " Status"
+        };
 
         public static List<int> FileStringLengthListForTrucks(Truck truck)
         {
@@ -82,7 +85,7 @@ namespace Zusammenbauen
             stringLengthPerColumn.Add(job.GetDeliveryDateAsString().Length + 2);
             stringLengthPerColumn.Add(job.GetPayment().ToString().Length + 4);
             stringLengthPerColumn.Add(job.GetFine().ToString().Length + 5);
-            stringLengthPerColumn.Add(job.GetStatus().ToString().Length + 1);
+            stringLengthPerColumn.Add(job.GetStatus().ToString().Length + 5);
             return stringLengthPerColumn;
         }
 

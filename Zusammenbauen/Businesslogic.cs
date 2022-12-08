@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Zusammenbauen
 {
-    internal class Businesslogic
+    public class Businesslogic
     {
         //********************************************************************************************************************
         //Truck related Business Logic
@@ -78,6 +78,7 @@ namespace Zusammenbauen
         public static void acceptJob(Company activeCompany, string selectedJobId, List<Job> jobOffers)
         {
             var selectedJobIdAsInt = Convert.ToInt32(selectedJobId) - 1;
+            jobOffers[selectedJobIdAsInt].SetStatusOfJob((Job.Status)1);
             activeCompany.AddJobToPendingJobsList(jobOffers[selectedJobIdAsInt]);
             RemoveJobFromList(selectedJobIdAsInt, jobOffers);
             UpdateJobIds(activeCompany.GetListOfPendingJobs());
@@ -97,7 +98,7 @@ namespace Zusammenbauen
 
         public static void DispatchTruckForJob(Truck truck, Job job)
         {
-            job.SetStatusOfJob((Job.Status)2);
+            job.SetStatusOfJob(Job.Status.Bearbeitung);
             ChangeTruckLocation(truck, 0);
         }
     }

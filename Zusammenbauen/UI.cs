@@ -93,7 +93,7 @@ namespace Zusammenbauen
 
         public static void PrintListOfJobs(List<Job> acceptedJobs)
         {
-            int[] initialMaxStringLengthForJob = { 3, 6, 5, 10, 9, 9, 13, 11, 8 , 8};
+            int[] initialMaxStringLengthForJob = { 3, 6, 5, 10, 9, 9, 13, 11, 8, 8 };
             Console.Clear();
             foreach (var job in acceptedJobs) CalcMaxStringLengthForJobs(job);
 
