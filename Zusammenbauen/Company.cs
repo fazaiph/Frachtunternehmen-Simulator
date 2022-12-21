@@ -15,6 +15,7 @@ namespace Zusammenbauen
         private readonly List<Job> pendingJobs = new List<Job>();
         private long companyCash;
         private List<Truck> driverlessOwnedTrucks = new List<Truck>();
+        private List<Driver> driversWithTrucks = new List<Driver>();
 
         private int numberOfEmployees, numberOfOwnedTrucks, numberOfPendingJobs;
 
@@ -69,7 +70,7 @@ namespace Zusammenbauen
 
         public void UpdateCompanyNumbers()
         {
-            numberOfEmployees = employedDrivers.Count;
+            numberOfEmployees = employedDrivers.Count + driversWithTrucks.Count;
             numberOfOwnedTrucks = driverlessOwnedTrucks.Count + ownedTrucksWithDrivers.Count;
             numberOfPendingJobs = pendingJobs.Count;
         }
@@ -101,7 +102,7 @@ namespace Zusammenbauen
         {
             ConsoleKeyInfo selectedTruckId, selectedDriverId;
             int selectedTruckIdAsInt, selectedDriverIdAsInt;
-            PrintListOfTrucks(driverlessOwnedTrucks);
+            PrintListOfTrucksForMarket(driverlessOwnedTrucks);
             selectedTruckId = SelectATruck(driverlessOwnedTrucks);
             if (!'z'.Equals(selectedTruckId.KeyChar))
                 selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId.KeyChar.ToString());
@@ -115,7 +116,8 @@ namespace Zusammenbauen
                 return;
             AssignDriverToTruck(driverlessOwnedTrucks[selectedTruckIdAsInt - 1],
                 employedDrivers[selectedDriverIdAsInt - 1]);
-            TransferTruckToAssignedTrucksList(driverlessOwnedTrucks, selectedTruckIdAsInt - 1, ownedTrucksWithDrivers);
+            TransferDriverToNewList(employedDrivers, selectedDriverIdAsInt - 1, driversWithTrucks);
+            TransferTruckToNewList(driverlessOwnedTrucks, selectedTruckIdAsInt - 1, ownedTrucksWithDrivers);
         }
 
         public void SetDriverlessOwnedTrucks(List<Truck> listWithUpdateTruckIds)

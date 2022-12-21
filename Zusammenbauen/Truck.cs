@@ -1,23 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Zusammenbauen
 {
     public class Truck
     {
-        public enum Location
-        {
-            Unterwegs = 0,
-            Amsterdam = 1,
-            Berlin = 2,
-            Esslingen = 3,
-            Rom = 4,
-            Lissabon = 5,
-            Istanbul = 6,
-            Aarhus = 7,
-            Tallin = 8
-        }
 
-        public enum truckSize
+        public enum TruckSize
         {
             Klein = 0,
             Medium = 1,
@@ -25,7 +14,7 @@ namespace Zusammenbauen
             Riesig = 3
         }
 
-        public enum truckType
+        public enum TruckType
         {
             Pritschenwagen = 0,
             Tanklaster = 1,
@@ -36,32 +25,84 @@ namespace Zusammenbauen
 
         private readonly int age;
         private readonly int power, maxLoad, fuelConsumption, price;
-        private readonly truckSize size;
-        private readonly Mapper truckMapper = new Mapper();
-        private readonly truckType type;
+        private readonly TruckSize size;
+        private readonly TruckType type;
         private Driver assginedDriver;
-        private Location currentLocation;
+        private Location currentLocation, destination;
         public bool isDriverless;
-        private double priceFactor;
+        private double priceFactor, distanceForCurrentTrip, remainingDistanceToDrive, driveableDistancePerDay;
         private int trucksIndex;
+        private Job assignedJob;
 
         public Truck(int trucksIndexFromOutside)
         {
             trucksIndex = trucksIndexFromOutside;
-            type = (truckType)rndNum.Next(3);
+            type = (TruckType)rndNum.Next(3);
             age = rndNum.Next(11);
             currentLocation = (Location)rndNum.Next(1, 9);
-            size = (truckSize)rndNum.Next(4);
-            power = truckMapper.MapTruckPower(size);
+            size = (TruckSize)rndNum.Next(4);
+            power = Mapper.MapTruckPower(size);
             maxLoad = Mapper.MapMaxLoad(size, type);
             fuelConsumption = CalcFuelConsumption();
             price = (int)CalcPrice();
             isDriverless = true;
+            remainingDistanceToDrive = 0;
+            driveableDistancePerDay = 0;
+        }
+
+        public double GetDistanceForCurrentTrip()
+        {
+            return distanceForCurrentTrip;
+        }
+
+        public void SetDistanceForCurrentTrip(double distance)
+        {
+            distanceForCurrentTrip = distance;
+        }
+
+        public Location GetDestination()
+        {
+            return destination;
+        }
+
+        public void SetDestination(Location newDestination)
+        {
+            destination = newDestination;
+        }
+
+        public Job GetAssignedJob()
+        {
+            return assignedJob;
+        }
+
+        public void SetAssignedJob(Job newTruck)
+        {
+            assignedJob = newTruck;
         }
 
         public void SetIsDriverless(bool state)
         {
             isDriverless = state;
+        }
+
+        public double GetDriveableDistancePerDay()
+        {
+            return driveableDistancePerDay;
+        }
+
+        public void SetDriveableDistancePerDay(double newDistance)
+        {
+            driveableDistancePerDay = newDistance;
+        }
+
+        public double GetRemainingDistanceToDrive()
+        {
+            return remainingDistanceToDrive;
+        }
+
+        public void SetRemainingDistanceToDrive(double newDistance)
+        {
+            remainingDistanceToDrive = newDistance;
         }
 
         public Driver GetAssignedDriver()
@@ -79,7 +120,7 @@ namespace Zusammenbauen
             return trucksIndex;
         }
 
-        public truckType GetTruckType()
+        public TruckType GetTruckType()
         {
             return type;
         }
@@ -94,7 +135,7 @@ namespace Zusammenbauen
             return currentLocation;
         }
 
-        public truckSize GetSize()
+        public TruckSize GetSize()
         {
             return size;
         }
@@ -135,7 +176,7 @@ namespace Zusammenbauen
         private void CalcPriceFactor()
         {
             priceFactor = 1.0 + rndNum.Next(-20, 31) / 100.0 - age * 0.03;
-            if (type == truckType.Kühllastwagen) priceFactor += 0.1;
+            if (type == TruckType.Kühllastwagen) priceFactor += 0.1;
         }
 
         private int CalcFuelConsumption()
@@ -147,6 +188,11 @@ namespace Zusammenbauen
         public void SetID(int newID)
         {
             trucksIndex = newID;
+        }
+
+        public int GetID()
+        {
+            return trucksIndex;
         }
 
         public void SetCurrentLocation(Location newLocation)

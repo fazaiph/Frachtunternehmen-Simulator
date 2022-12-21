@@ -2,6 +2,7 @@
 using static Zusammenbauen.TruckTransferCenter;
 using static Zusammenbauen.UI;
 using static Zusammenbauen.JobDispatcher;
+using static Zusammenbauen.Businesslogic;
 
 namespace Zusammenbauen
 {
@@ -23,6 +24,8 @@ namespace Zusammenbauen
             CreateGame();
             while (true) //fürs erste ne Dauerschleife, da noch nicht gefordert, das Spiel verlassen zu können
             {
+                areWeThereYet(activeCompany);
+                activeCompany.UpdateCompanyNumbers(); 
                 MainMenu(activeCompany);
 
                 switch (selection.KeyChar)
@@ -66,6 +69,7 @@ namespace Zusammenbauen
 
         public static void EndRound()
         {
+            letTrucksDrive(activeCompany.GetListOfTrucksWithDrivers());
             gameDate = gameDate.AddDays(1);
         }
 

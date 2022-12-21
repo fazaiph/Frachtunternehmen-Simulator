@@ -8,6 +8,7 @@ namespace Zusammenbauen
     {
         public static void PrintTableHeaders(string[] marketTypeSpecificStrings, int[] maxLengthPerColumn)
         {
+            Console.Clear();
             for (var index = 0; index < marketTypeSpecificStrings.Length; index++)
             {
                 Console.Write("|");
@@ -25,14 +26,13 @@ namespace Zusammenbauen
             Console.WriteLine("+");
         }
 
-        public static void PrintTable(string[] stringsToPrint, int[] maxLengthPerColumn)
+        public static void PrintTable(int[] maxLengthPerColumn,string[] stringsToPrint)
         {
             for (var index = 0; index < stringsToPrint.Length; index++)
             {
                 Console.Write("| ");
                 Console.Write(stringsToPrint[index].PadRight(maxLengthPerColumn[index] - 1));
             }
-
             Console.WriteLine("|");
         }
 
@@ -62,31 +62,28 @@ namespace Zusammenbauen
                 company.GetNumberOfEmployees(), company.GetNumberOfJobs());
         }
 
-        public static void PrintListOfTrucks(List<Truck> listOfTrucks)
+        public static void PrintListOfTrucksForMarket(List<Truck> listOfTrucks)
         {
             int[] initialMaxStringLengthForTrucks = { 3, 5, 7, 10, 10, 11, 7, 5 };
-            Console.Clear();
             foreach (var truck in listOfTrucks) CalcMaxStringLengthForTrucks(truck);
 
             PrintTableHeaders(GetHeaderStringsForTrucks(), GetMaxStringLengthForTrucks());
 
             foreach (var truck in listOfTrucks)
-                PrintTable(FileStringsAsListForTrucks(truck).ToArray(),
-                    GetMaxStringLengthForTrucks());
+                PrintTable(GetMaxStringLengthForTrucks(), FileStringsAsListForTrucks(truck).ToArray());
             SetMaxStringLengthForTrucks(initialMaxStringLengthForTrucks);
         }
 
         public static void PrintListOfDrivers(List<Driver> listOfDrivers)
         {
-            int[] initialMaxStringLengthForDrivers = { 3, 8, 8, 5 };
+            int[] initialMaxStringLengthForDrivers = GetMaxStringLengthForDrivers();
             Console.Clear();
             foreach (var driver in listOfDrivers) CalcMaxStringLengthForDrivers(driver);
 
             PrintTableHeaders(GetHeaderStringsForDrivers(), GetMaxStringLengthForDrivers());
 
             foreach (var driver in listOfDrivers)
-                PrintTable(FileStringsAsListForDrivers(driver).ToArray(),
-                    GetMaxStringLengthForDrivers());
+                PrintTable(GetMaxStringLengthForDrivers(), FileStringsAsListForDrivers(driver).ToArray());
 
             SetMaxStringLengthForDrivers(initialMaxStringLengthForDrivers);
         }
@@ -100,8 +97,7 @@ namespace Zusammenbauen
             PrintTableHeaders(GetHeaderStringsForJobs(), GetMaxStringLengthForJobs());
 
             foreach (var job in acceptedJobs)
-                PrintTable(FileStringsAsListForJobs(job).ToArray(),
-                    GetMaxStringLengthForJobs());
+                PrintTable(GetMaxStringLengthForJobs(), FileStringsAsListForJobs(job).ToArray());
 
             SetMaxStringLengthForJobs(initialMaxStringLengthForJob);
         }
@@ -110,7 +106,7 @@ namespace Zusammenbauen
         {
             var index = 0;
             Console.Clear();
-            foreach (var destination in Enum.GetNames(typeof(Truck.Location)))
+            foreach (var destination in Enum.GetNames(typeof(Location)))
                 if (!(destination == "Unterwegs"))
                     Console.WriteLine("{0}   {1}", ++index, destination);
                 else

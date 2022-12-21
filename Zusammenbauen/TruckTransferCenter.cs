@@ -11,14 +11,17 @@ namespace Zusammenbauen
         {
             ConsoleKeyInfo selectedTruckId, selectedDestination;
             int selectedTruckIdAsInt, selectedDestinationAsInt;
-            PrintListOfTrucks(activeCompany.GetListOfTrucksWithDrivers());
+            Truck selectedTruck;
+            double distanceBetweenLocations = 0;
+            PrintListOfTrucksForMarket(activeCompany.GetListOfTrucksWithDrivers());
             selectedTruckId = SelectATruck(activeCompany.GetListOfTrucksWithDrivers());
             if (!'z'.Equals(selectedTruckId.KeyChar))
                 selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId.KeyChar.ToString());
             else
                 return;
-            if (activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1].GetCurrentLocation() ==
-                Truck.Location.Unterwegs)
+            selectedTruck = activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1];
+            if (selectedTruck.GetCurrentLocation() ==
+                Location.Unterwegs)
             {
                 Console.WriteLine("Dieser LKW ist momentan unterwegs und kann nicht bewegt werden!");
                 Console.WriteLine("Beliebige Taste drücken um zum Menü zurückzukehren");
@@ -29,10 +32,19 @@ namespace Zusammenbauen
             PrintDestinationSelectionPage();
             selectedDestination = SelectADestination();
             if (!'z'.Equals(selectedDestination.KeyChar))
-                selectedDestinationAsInt = Convert.ToInt32(selectedTruckId.KeyChar.ToString());
+                selectedDestinationAsInt = Convert.ToInt32(selectedDestination.KeyChar.ToString());
             else
                 return;
-            ChangeTruckLocation(activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1], 0);
+            distanceBetweenLocations = CalcDistance(selectedTruck.GetCurrentLocation(),
+                (Location)selectedDestinationAsInt);
+            ChangeTruckLocation(selectedTruck, 0);
+            selectedTruck.SetDriveableDistancePerDay(CalculateDriveDistancePerDay(0, selectedTruck.GetPower(),
+                selectedTruck.GetAssignedDriver().GetDriverType()));
+            selectedTruck.SetRemainingDistanceToDrive(distanceBetweenLocations);
+            selectedTruck.SetDistanceForCurrentTrip(distanceBetweenLocations);
+            selectedTruck.SetDestination((Location)selectedDestinationAsInt);
+            Console.WriteLine("Der LKW brauch {0} Tage", selectedTruck.GetRemainingDistanceToDrive()/selectedTruck.GetDriveableDistancePerDay());
+            Console.ReadKey();
         }
 
         public static ConsoleKeyInfo SelectADestination()

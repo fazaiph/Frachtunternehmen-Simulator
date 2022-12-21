@@ -1,8 +1,8 @@
 ﻿using System;
-using static Zusammenbauen.UI;
+using static Zusammenbauen.Businesslogic;
 using static Zusammenbauen.JobOfferMarket;
 using static Zusammenbauen.TruckMarket;
-using static Zusammenbauen.Businesslogic;
+using static Zusammenbauen.UI;
 
 namespace Zusammenbauen
 {
@@ -20,14 +20,14 @@ namespace Zusammenbauen
                 selectedJobIdAsInt = Convert.ToInt32(selectedJobId.KeyChar.ToString());
             else
                 return;
-            PrintListOfTrucks(activeCompany.GetListOfTrucksWithDrivers());
+            PrintListOfTrucksForMarket(activeCompany.GetListOfTrucksWithDrivers());
             selectedTruckId = SelectATruck(activeCompany.GetListOfTrucksWithDrivers());
             if (!'z'.Equals(selectedTruckId.KeyChar))
                 selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId.KeyChar.ToString());
             else
                 return;
             if (activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1].GetCurrentLocation() ==
-                Truck.Location.Unterwegs)
+                Location.Unterwegs)
             {
                 Console.WriteLine("Dieser LKW ist momentan unterwegs und kann nicht bewegt werden!");
                 Console.WriteLine("Beliebige Taste drücken um zum Menü zurückzukehren");

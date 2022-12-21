@@ -58,7 +58,7 @@ namespace Zusammenbauen
             stringLengthPerColumn.Add(driver.GetDriversIndex().ToString().Length + 2);
             stringLengthPerColumn.Add(driver.GetFullName().Length + 2);
             stringLengthPerColumn.Add(driver.GetWishedForSalary().ToString().Length + 5);
-            stringLengthPerColumn.Add(driver.GetDriverType().Length + 2);
+            stringLengthPerColumn.Add(driver.GetDriverTypeAsString().Length + 2);
             return stringLengthPerColumn;
         }
 
@@ -69,7 +69,7 @@ namespace Zusammenbauen
             printingList.Add(driver.GetFullName());
             printingList.Add(driver.GetWishedForSalary().ToString()
                 .Insert(driver.GetWishedForSalary().ToString().Length, "EUR"));
-            printingList.Add(driver.GetDriverType());
+            printingList.Add(driver.GetDriverTypeAsString());
             return printingList;
         }
 

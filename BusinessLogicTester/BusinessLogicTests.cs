@@ -15,7 +15,7 @@ namespace BusinessLogicTester
             var testDriver = new Driver(0, "Max", "Mustermann");
 
             testCompany.AddTruckToOwnedTrucks(testTruck);
-            Businesslogic.TransferTruckToAssignedTrucksList(testCompany.GetListOfDriverlessOwnedTrucks(), 0,
+            Businesslogic.TransferTruckToNewList(testCompany.GetListOfDriverlessOwnedTrucks(), 0,
                 testCompany.GetListOfTrucksWithDrivers());
 
             Assert.AreEqual(1, testCompany.GetListOfTrucksWithDrivers().Count);
@@ -30,7 +30,7 @@ namespace BusinessLogicTester
             var testDriver = new Driver(0, "Max", "Mustermann");
 
             testCompany.AddTruckToOwnedTrucks(testTruck);
-            Businesslogic.TransferTruckToAssignedTrucksList(testCompany.GetListOfDriverlessOwnedTrucks(), 0,
+            Businesslogic.TransferTruckToNewList(testCompany.GetListOfDriverlessOwnedTrucks(), 0,
                 testCompany.GetListOfTrucksWithDrivers());
 
             Assert.AreEqual(0, testCompany.GetListOfDriverlessOwnedTrucks().Count);

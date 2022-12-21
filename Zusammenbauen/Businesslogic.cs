@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using static Zusammenbauen.Mapper;
 
 namespace Zusammenbauen
 {
     public class Businesslogic
     {
+        private static double kwNeededPerTon = 7.5;
+
+        private static double fuelPricePerLitre = 1.0;
         //********************************************************************************************************************
         //Truck related Business Logic
         public static void BuyTruck(Company buyingCompany, string selectedTruckId, List<Truck> trucksOnTheMarket)
@@ -36,7 +40,7 @@ namespace Zusammenbauen
             selectedTruck.SetIsDriverless(false);
         }
 
-        public static void TransferTruckToAssignedTrucksList(List<Truck> driverlessTrucks, int formerTruckId,
+        public static void TransferTruckToNewList(List<Truck> driverlessTrucks, int formerTruckId,
             List<Truck> listOfTrucksWithDrivers)
         {
             listOfTrucksWithDrivers.Add(driverlessTrucks[formerTruckId]);
@@ -45,7 +49,7 @@ namespace Zusammenbauen
             UpdateTruckIds(listOfTrucksWithDrivers);
         }
 
-        public static void ChangeTruckLocation(Truck truck, Truck.Location newLocation)
+        public static void ChangeTruckLocation(Truck truck, Location newLocation)
         {
             truck.SetCurrentLocation(newLocation);
         }
@@ -71,6 +75,15 @@ namespace Zusammenbauen
             var newID = 1;
             foreach (var driver in listOfDrivers) driver.SetID(newID++);
             return listOfDrivers;
+        }
+
+        public static void TransferDriverToNewList(List<Driver> sourceList, int formerDriverId,
+            List<Driver> destinationList)
+        {
+            destinationList.Add(sourceList[formerDriverId]);
+            RemoveDriverFromList(formerDriverId, sourceList);
+            UpdateDriversIds(sourceList);
+            UpdateDriversIds(destinationList);
         }
 
         //********************************************************************************************************************
@@ -100,6 +113,77 @@ namespace Zusammenbauen
         {
             job.SetStatusOfJob(Job.Status.Bearbeitung);
             ChangeTruckLocation(truck, 0);
+            truck.SetDriveableDistancePerDay(CalculateDriveDistancePerDay(job.GetTotalWeight(), truck.GetPower(),
+                truck.GetAssignedDriver().GetDriverType()));
+            truck.SetRemainingDistanceToDrive(job.GetDistance());
+            truck.SetDistanceForCurrentTrip(job.GetDistance());
+            truck.SetAssignedJob(job);
+            truck.SetDestination(job.GetDestinationCity());
+        }
+
+        public static double CalculateDriveDistancePerDay(int weight, int truckPower, Driver.DriverType driverType)
+        {
+            var weightfactor = CalcWeightfactor(weight, truckPower);
+            var distancePDay = 70 * weightfactor * MapDriverTypeToSpeedFactors(driverType) * 8;
+            return distancePDay;
+        }
+
+        private static double CalcWeightfactor(int weight, int truckPower)
+        {
+            var neededPower = weight * kwNeededPerTon;
+            if (neededPower > truckPower)
+                return 1 - (neededPower - truckPower) * 0.01;
+            return 1;
+        }
+
+        public static double CalcDistance(Location origin, Location destination)
+        {
+            return Math.Floor(Math.Sqrt(Math.Pow(MapCityToEasting(destination) - MapCityToEasting(origin), 2) +
+                                        Math.Pow(MapCityToNorthing(destination) - MapCityToNorthing(origin), 2)) /
+                              1000);
+        }
+
+        public static void areWeThereYet(Company company)
+        {
+            foreach (var truck in company.GetListOfTrucksWithDrivers())
+            {
+                if (truck.GetRemainingDistanceToDrive() < 0)
+                {
+                    truckArrives(company, truck);
+                }
+            }
+        }
+
+        public static void letTrucksDrive(List<Truck> trucksList)
+        {
+            foreach (var truck in trucksList)
+            {
+                if (truck.GetCurrentLocation() == Location.Unterwegs)
+                {
+                    truck.SetRemainingDistanceToDrive(truck.GetRemainingDistanceToDrive() - truck.GetDriveableDistancePerDay());
+                }
+            }
+        }
+
+        public static void truckArrives(Company company, Truck truck)
+        {
+            truck.SetCurrentLocation(truck.GetDestination());
+            truck.SetRemainingDistanceToDrive(0);
+            truck.SetDriveableDistancePerDay(0);
+            payFuel(company, truck);
+            if (truck.GetAssignedJob() != null)
+            {
+                company.GetListOfPendingJobs().RemoveAt(truck.GetAssignedJob().GetJobIndex()-1);
+                UpdateJobIds(company.GetListOfPendingJobs());
+                truck.SetAssignedJob(null);
+            }
+        }
+
+        public static void payFuel(Company company, Truck truck)
+        {
+            var usedFuel = (truck.GetDistanceForCurrentTrip()/100) * truck.GetFuelConsumption() * MapDriverFuelConsumptionFactor(truck.GetAssignedDriver().GetDriverType());
+            var costForUsedFuel = usedFuel * fuelPricePerLitre;
+            company.SetCompanyCash(company.GetCompanyCash()-(long)costForUsedFuel);
         }
     }
 }

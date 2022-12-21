@@ -28,7 +28,7 @@ namespace Zusammenbauen
         {
             Console.Clear();
             ConsoleKeyInfo selectedTruckId;
-            PrintListOfTrucks(trucksOnTheMarket);
+            PrintListOfTrucksForMarket(trucksOnTheMarket);
             selectedTruckId = SelectATruck(trucksOnTheMarket);
             if (!'z'.Equals(selectedTruckId.KeyChar))
                 BuyTruck(activeCompany, selectedTruckId.KeyChar.ToString(), trucksOnTheMarket);

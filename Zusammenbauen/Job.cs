@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using static Zusammenbauen.Mapper;
+using static Zusammenbauen.Businesslogic;
 
 namespace Zusammenbauen
 {
@@ -17,19 +20,6 @@ namespace Zusammenbauen
             Benzin = 8
         }
 
-        public enum Location
-        {
-            Unterwegs = 0,
-            Amsterdam = 1,
-            Berlin = 2,
-            Esslingen = 3,
-            Rom = 4,
-            Lissabon = 5,
-            Istanbul = 6,
-            Aarhus = 7,
-            Tallin = 8
-        }
-
         public enum Status
         {
             offen = 0,
@@ -43,9 +33,10 @@ namespace Zusammenbauen
         private readonly goodsTypes goodsType;
         private readonly Mapper mapper = new Mapper();
         private readonly Location originCity, destinationCity;
-        private readonly Truck.truckType requiredTruckType;
+        private readonly Truck.TruckType requiredTruckType;
         private readonly Random rndNum = new Random();
         private readonly int totalWeight;
+        private double distance;
         private int jobIndex;
         private Status status;
 
@@ -53,11 +44,12 @@ namespace Zusammenbauen
         {
             jobIndex = jobIndexFromOutside;
             goodsType = (goodsTypes)rndNum.Next(9);
-            requiredTruckType = Mapper.MapGoodsTypeToTruckType(goodsType);
-            totalWeight = rndNum.Next(1, Mapper.MapMaxLoad(Truck.truckSize.Riesig, requiredTruckType));
+            requiredTruckType = MapGoodsTypeToTruckType(goodsType);
+            totalWeight = rndNum.Next(1, MapMaxLoad(Truck.TruckSize.Riesig, requiredTruckType));
             originCity = (Location)rndNum.Next(1, 9);
             destinationCity = (Location)rndNum.Next(1, 9);
-            maxDays = Mapper.MapMaxDays(goodsType);
+            distance = CalcDistance(originCity, destinationCity);
+                maxDays = MapMaxDays(goodsType);
             deliveryDays = rndNum.Next(3, maxDays);
             deliveryDate = DateTime.Now.AddDays(deliveryDays);
             bonusFactor = 1.0 + (0.2 + Convert.ToDouble(deliveryDays) / Convert.ToDouble(maxDays)) *
@@ -65,6 +57,11 @@ namespace Zusammenbauen
             payment = mapper.MapMinPricePerTon(goodsType) * totalWeight * bonusFactor;
             fine = rndNum.Next(50, 201) * payment / 100;
             status = Status.offen;
+        }
+
+        public double GetDistance()
+        {
+            return distance;
         }
 
         public Status GetStatus()
@@ -87,7 +84,7 @@ namespace Zusammenbauen
             return goodsType;
         }
 
-        public Truck.truckType GetRequiredTruckType()
+        public Truck.TruckType GetRequiredTruckType()
         {
             return requiredTruckType;
         }
