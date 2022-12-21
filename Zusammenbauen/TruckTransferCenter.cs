@@ -43,9 +43,6 @@ namespace Zusammenbauen
             selectedTruck.SetRemainingDistanceToDrive(distanceBetweenLocations);
             selectedTruck.SetDistanceForCurrentTrip(distanceBetweenLocations);
             selectedTruck.SetDestination((Location)selectedDestinationAsInt);
-            Console.WriteLine("Der LKW brauch {0} Tage",
-                selectedTruck.GetRemainingDistanceToDrive() / selectedTruck.GetDriveableDistancePerDay());
-            Console.ReadKey();
         }
 
         public static ConsoleKeyInfo SelectADestination()

@@ -17,16 +17,25 @@ namespace Zusammenbauen
             PrintListOfJobs(activeCompany.GetListOfPendingJobs());
             selectedJobId = SelectJob();
             if (!'z'.Equals(selectedJobId.KeyChar))
-                selectedJobIdAsInt = Convert.ToInt32(selectedJobId.KeyChar.ToString());
+                selectedJobIdAsInt = Convert.ToInt32(selectedJobId.KeyChar.ToString()) - 1;
             else
                 return;
+
+            if (activeCompany.GetListOfPendingJobs()[selectedJobIdAsInt].GetStatus() == Job.Status.Bearbeitung)
+            {
+                Console.WriteLine("Dieser Auftrag wird bereits ausgeführt");
+                Console.WriteLine("Beliebige Taste zum zurrückkehren drücken...");
+                Console.ReadKey();
+                return;
+            }
+
             PrintListOfTrucksForMarket(activeCompany.GetListOfTrucksWithDrivers());
             selectedTruckId = SelectATruck(activeCompany.GetListOfTrucksWithDrivers());
             if (!'z'.Equals(selectedTruckId.KeyChar))
-                selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId.KeyChar.ToString());
+                selectedTruckIdAsInt = Convert.ToInt32(selectedTruckId.KeyChar.ToString()) - 1;
             else
                 return;
-            if (activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1].GetCurrentLocation() ==
+            if (activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt].GetCurrentLocation() ==
                 Location.Unterwegs)
             {
                 Console.WriteLine("Dieser LKW ist momentan unterwegs und kann nicht bewegt werden!");
@@ -36,12 +45,12 @@ namespace Zusammenbauen
             }
 
             truckIsSuitedForJob = ValidateIfTruckIsSuitedForJob(
-                activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1],
-                activeCompany.GetListOfPendingJobs()[selectedJobIdAsInt - 1]);
+                activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt],
+                activeCompany.GetListOfPendingJobs()[selectedJobIdAsInt]);
             if (truckIsSuitedForJob)
             {
-                DispatchTruckForJob(activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt - 1],
-                    activeCompany.GetListOfPendingJobs()[selectedJobIdAsInt - 1]);
+                DispatchTruckForJob(activeCompany.GetListOfTrucksWithDrivers()[selectedTruckIdAsInt],
+                    activeCompany.GetListOfPendingJobs()[selectedJobIdAsInt]);
             }
             else
             {

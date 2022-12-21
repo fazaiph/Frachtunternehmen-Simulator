@@ -11,11 +11,11 @@ namespace Zusammenbauen
     {
         private static readonly List<Truck> ownedTrucksWithDrivers = new List<Truck>();
         private readonly string companyName;
+        private readonly List<Driver> driversWithTrucks = new List<Driver>();
         private readonly List<Driver> employedDrivers = new List<Driver>();
         private readonly List<Job> pendingJobs = new List<Job>();
         private long companyCash;
         private List<Truck> driverlessOwnedTrucks = new List<Truck>();
-        private readonly List<Driver> driversWithTrucks = new List<Driver>();
 
         private int numberOfEmployees, numberOfOwnedTrucks, numberOfPendingJobs;
 

@@ -7,8 +7,9 @@ namespace Zusammenbauen
     public class Businesslogic
     {
         private static readonly double kwNeededPerTon = 7.5;
-
         private static readonly double fuelPricePerLitre = 1.0;
+        private static readonly double truckBaseSpeed = 70.0;
+        private static readonly double maxDrivingHoursPerDay = 8.0;
 
         //********************************************************************************************************************
         //Truck related Business Logic
@@ -125,7 +126,8 @@ namespace Zusammenbauen
         public static double CalculateDriveDistancePerDay(int weight, int truckPower, Driver.DriverType driverType)
         {
             var weightfactor = CalcWeightfactor(weight, truckPower);
-            var distancePDay = 70 * weightfactor * MapDriverTypeToSpeedFactors(driverType) * 8;
+            var distancePDay = truckBaseSpeed * weightfactor * MapDriverTypeToSpeedFactors(driverType) *
+                               maxDrivingHoursPerDay;
             return distancePDay;
         }
 
@@ -147,7 +149,7 @@ namespace Zusammenbauen
         public static void AreWeThereYet(Company company)
         {
             foreach (var truck in company.GetListOfTrucksWithDrivers())
-                if (truck.GetRemainingDistanceToDrive() < 0)
+                if (truck.GetRemainingDistanceToDrive() <= 0)
                     TruckArrives(company, truck);
         }
 

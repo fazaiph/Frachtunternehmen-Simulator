@@ -29,13 +29,13 @@ namespace Zusammenbauen
         private readonly double bonusFactor, payment, fine;
         private readonly DateTime deliveryDate;
         private readonly int deliveryDays, maxDays;
+        private readonly double distance;
         private readonly goodsTypes goodsType;
         private readonly Mapper mapper = new Mapper();
         private readonly Location originCity, destinationCity;
         private readonly Truck.TruckType requiredTruckType;
         private readonly Random rndNum = new Random();
         private readonly int totalWeight;
-        private readonly double distance;
         private int jobIndex;
         private Status status;
 
