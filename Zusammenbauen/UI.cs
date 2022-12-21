@@ -26,13 +26,14 @@ namespace Zusammenbauen
             Console.WriteLine("+");
         }
 
-        public static void PrintTable(int[] maxLengthPerColumn,string[] stringsToPrint)
+        public static void PrintTable(int[] maxLengthPerColumn, string[] stringsToPrint)
         {
             for (var index = 0; index < stringsToPrint.Length; index++)
             {
                 Console.Write("| ");
                 Console.Write(stringsToPrint[index].PadRight(maxLengthPerColumn[index] - 1));
             }
+
             Console.WriteLine("|");
         }
 
@@ -76,7 +77,7 @@ namespace Zusammenbauen
 
         public static void PrintListOfDrivers(List<Driver> listOfDrivers)
         {
-            int[] initialMaxStringLengthForDrivers = GetMaxStringLengthForDrivers();
+            var initialMaxStringLengthForDrivers = GetMaxStringLengthForDrivers();
             Console.Clear();
             foreach (var driver in listOfDrivers) CalcMaxStringLengthForDrivers(driver);
 

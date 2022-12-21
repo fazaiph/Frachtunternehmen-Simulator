@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using static Zusammenbauen.Mapper;
 using static Zusammenbauen.Businesslogic;
 
@@ -36,7 +35,7 @@ namespace Zusammenbauen
         private readonly Truck.TruckType requiredTruckType;
         private readonly Random rndNum = new Random();
         private readonly int totalWeight;
-        private double distance;
+        private readonly double distance;
         private int jobIndex;
         private Status status;
 
@@ -49,7 +48,7 @@ namespace Zusammenbauen
             originCity = (Location)rndNum.Next(1, 9);
             destinationCity = (Location)rndNum.Next(1, 9);
             distance = CalcDistance(originCity, destinationCity);
-                maxDays = MapMaxDays(goodsType);
+            maxDays = MapMaxDays(goodsType);
             deliveryDays = rndNum.Next(3, maxDays);
             deliveryDate = DateTime.Now.AddDays(deliveryDays);
             bonusFactor = 1.0 + (0.2 + Convert.ToDouble(deliveryDays) / Convert.ToDouble(maxDays)) *

@@ -15,7 +15,7 @@ namespace Zusammenbauen
         private readonly List<Job> pendingJobs = new List<Job>();
         private long companyCash;
         private List<Truck> driverlessOwnedTrucks = new List<Truck>();
-        private List<Driver> driversWithTrucks = new List<Driver>();
+        private readonly List<Driver> driversWithTrucks = new List<Driver>();
 
         private int numberOfEmployees, numberOfOwnedTrucks, numberOfPendingJobs;
 

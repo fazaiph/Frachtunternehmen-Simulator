@@ -24,8 +24,8 @@ namespace Zusammenbauen
             CreateGame();
             while (true) //fürs erste ne Dauerschleife, da noch nicht gefordert, das Spiel verlassen zu können
             {
-                areWeThereYet(activeCompany);
-                activeCompany.UpdateCompanyNumbers(); 
+                AreWeThereYet(activeCompany);
+                activeCompany.UpdateCompanyNumbers();
                 MainMenu(activeCompany);
 
                 switch (selection.KeyChar)
@@ -69,7 +69,7 @@ namespace Zusammenbauen
 
         public static void EndRound()
         {
-            letTrucksDrive(activeCompany.GetListOfTrucksWithDrivers());
+            LetTrucksDrive(activeCompany.GetListOfTrucksWithDrivers());
             gameDate = gameDate.AddDays(1);
         }
 

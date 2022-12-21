@@ -42,7 +42,7 @@ namespace BusinessLogicTester
         {
             var testTruck = new Truck(1);
             var locationBeforeChanged = testTruck.GetCurrentLocation();
-            Businesslogic.ChangeTruckLocation(testTruck, Truck.Location.Unterwegs);
+            Businesslogic.ChangeTruckLocation(testTruck, Location.Unterwegs);
 
             Assert.AreNotEqual(locationBeforeChanged, testTruck.GetCurrentLocation());
         }
@@ -53,10 +53,12 @@ namespace BusinessLogicTester
         {
             var testTruck = new Truck(1);
             var testJob = new Job(1);
+            var testDriver = new Driver(1, "Max", "Mustermann");
             var locationBeforeChanged = testTruck.GetCurrentLocation();
+            Businesslogic.AssignDriverToTruck(testTruck, testDriver);
             Businesslogic.DispatchTruckForJob(testTruck, testJob);
 
-            Assert.AreEqual(Truck.Location.Unterwegs, testTruck.GetCurrentLocation());
+            Assert.AreEqual(Location.Unterwegs, testTruck.GetCurrentLocation());
         }
 
         [TestMethod]
@@ -64,7 +66,9 @@ namespace BusinessLogicTester
         {
             var testTruck = new Truck(1);
             var testJob = new Job(1);
+            var testDriver = new Driver(1, "Max", "Mustermann");
             var locationBeforeChanged = testTruck.GetCurrentLocation();
+            Businesslogic.AssignDriverToTruck(testTruck, testDriver);
             Businesslogic.DispatchTruckForJob(testTruck, testJob);
 
             Assert.AreEqual(Job.Status.Bearbeitung, testJob.GetStatus());

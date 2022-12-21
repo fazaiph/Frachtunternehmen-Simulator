@@ -1,26 +1,31 @@
-﻿using System;
+﻿#define Testing
+using System;
 
 namespace Zusammenbauen
 {
     public class Driver
     {
+#if Testing
+        private DriverType type;
+#else
+        private readonly DriverType type;
+#endif
         public enum DriverType
         {
-            old = 0,            //"Alt, aber erfahren"
-            racer = 1,          //"Rennfahrer"
-            dreamer = 2,        //"Verträumt"
-            passionate = 3,     //"Liebt seinen Job"
-            unobtrusive = 4      // "Unauffälig"
+            old = 0, //"Alt, aber erfahren"
+            racer = 1, //"Rennfahrer"
+            dreamer = 2, //"Verträumt"
+            passionate = 3, //"Liebt seinen Job"
+            unobtrusive = 4 // "Unauffälig"
         }
 
         private readonly string fullName;
 
         private readonly Random number = new Random();
-        private readonly DriverType type;
 
         private readonly int wishedForSalary;
         private int driversIndex;
-        private Boolean assignedToTruck;
+        private bool assignedToTruck;
 
         public Driver(int driversIndexFromOutside, string forename, string surname)
         {
@@ -70,5 +75,11 @@ namespace Zusammenbauen
         {
             return type;
         }
+#if Testing
+        public void SetDriverType(DriverType newDT)
+        {
+            type = newDT;
+        }
+#endif
     }
 }

@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#define Testing
+using System;
 
 namespace Zusammenbauen
 {
     public class Truck
     {
+#if Testing
+        private int fuelConsumption;
+#else
+        private readonly int fuelConsumption;
+#endif
 
         public enum TruckSize
         {
@@ -24,7 +29,7 @@ namespace Zusammenbauen
         private static readonly Random rndNum = new Random();
 
         private readonly int age;
-        private readonly int power, maxLoad, fuelConsumption, price;
+        private readonly int power, maxLoad, price;
         private readonly TruckSize size;
         private readonly TruckType type;
         private Driver assginedDriver;
@@ -199,5 +204,12 @@ namespace Zusammenbauen
         {
             currentLocation = newLocation;
         }
+
+#if Testing
+        public void SetFuelConsumption(int newValue)
+        {
+            fuelConsumption = newValue;
+        }
+#endif
     }
 }
